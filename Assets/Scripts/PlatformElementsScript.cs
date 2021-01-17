@@ -23,7 +23,7 @@ public class PlatformElementsScript : MonoBehaviour
     // Constants.
     private int pitsNum = 3;
     private int platmormsNum = 5;
-    private int platformTypeNum = 4;
+    private int platformSizeNum = 4;
     private int lasersNum = 2;
     private int barrelsNum = 5;
     private int enemiesNum = 5;
@@ -67,8 +67,8 @@ public class PlatformElementsScript : MonoBehaviour
         mainCamTrans = Camera.main.transform;
 
         gridUnit = 0.335f;
-        gridWidth = PitScript.pitWidth / gridUnit;
-        gridHeight = PitScript.pitHeight / gridUnit;
+        gridWidth = PitScript.pitWidth / gridUnit; // 18.
+        gridHeight = PitScript.pitHeight / gridUnit; // 46.
         xPosRange = 0.5f * gridWidth;
         yPosRange = 0.5f * gridHeight;
         previosPitPosition = 15.62f;
@@ -83,12 +83,12 @@ public class PlatformElementsScript : MonoBehaviour
         previousGrid = new int[(int)gridWidth, (int)gridHeight];
         curGrid = new int[(int)gridWidth, (int)gridHeight];
         nextGrid = new int[(int)gridWidth, (int)gridHeight];
-        previousPlatforms = new GameObject[platmormsNum, platformTypeNum];
-        curPlatforms = new GameObject[platmormsNum, platformTypeNum];
-        nextPlatforms = new GameObject[platmormsNum, platformTypeNum];
-        previousAcidTanks = new GameObject[platmormsNum, platformTypeNum];
-        curAcidTanks = new GameObject[platmormsNum, platformTypeNum];
-        nextAcidTanks = new GameObject[platmormsNum, platformTypeNum];
+        previousPlatforms = new GameObject[platmormsNum, platformSizeNum];
+        curPlatforms = new GameObject[platmormsNum, platformSizeNum];
+        nextPlatforms = new GameObject[platmormsNum, platformSizeNum];
+        previousAcidTanks = new GameObject[platmormsNum, platformSizeNum];
+        curAcidTanks = new GameObject[platmormsNum, platformSizeNum];
+        nextAcidTanks = new GameObject[platmormsNum, platformSizeNum];
         previousLasers = new GameObject[lasersNum];
         curLasers = new GameObject[lasersNum];
         nextLasers = new GameObject[lasersNum];
@@ -117,7 +117,7 @@ public class PlatformElementsScript : MonoBehaviour
             curActivePlatforms[i] = -1;
             nextActivePlatforms[i] = -1;
             
-            for (int j = 0; j < platformTypeNum; ++j)
+            for (int j = 0; j < platformSizeNum; ++j)
             {
                 // Platforms.
                 GameObject platform = Instantiate(Resources.Load("Platform" + (j + 2))) as GameObject;
@@ -193,7 +193,7 @@ public class PlatformElementsScript : MonoBehaviour
         {
             nextActivePlatforms[i] = -1;
 
-            for (int j = 0; j < platformTypeNum; ++j)
+            for (int j = 0; j < platformSizeNum; ++j)
             {
                 nextPlatforms[i, j].SetActive(false);
             }
@@ -214,7 +214,7 @@ public class PlatformElementsScript : MonoBehaviour
     {
         for (int i = 0; i < platmormsNum; ++i)
         {
-            for (int j = 0; j < platformTypeNum; ++j)
+            for (int j = 0; j < platformSizeNum; ++j)
             {
                 nextAcidTanks[i, j].SetActive(false);
             }
@@ -232,93 +232,116 @@ public class PlatformElementsScript : MonoBehaviour
         // Setting the position of the lasers.
         for (int l = 0; l < laserNum; ++l)
         {
-            int laserPos = Random.Range(0, (int)gridHeight - 1); // Distance of 1 from pit's end to avoid adjacent lasers with the next pit.
-            // If there's already an element in that coordinate or distance to other laser is less than 1 try again.
-            while (nextGrid[0, laserPos] != 0 || nextGrid[0, laserPos + 1] == 1 || nextGrid[0, laserPos - 1] == 1)
-            {
-                laserPos = Random.Range(0, (int)gridHeight);
-            }
-            nextGrid[(int)xPosRange , laserPos] = 1;
-            GameObject laser = nextLasers[l];
-            laser.SetActive(true);
-            laser.transform.position = new Vector3(ConvertGridToWorld((int)xPosRange), ConvertGridToWorld(laserPos), elementsPosZ);
+            PositionLaser(l);
         }
 
-        // Setting the position of the platforms.
+        // Setting the position and the size of the platforms.
         for (int p = 0; p < platfomNum; ++p)
         {
-            // Setting the type of the platform.
-            int platformType = Random.Range(0, platformTypeNum);
-
-            GameObject platform = nextPlatforms[p, platformType];
-            int platformPosX = Random.Range(0, (int)gridWidth - 1);
-            int platformPosY = Random.Range(0, (int)gridHeight - 1);
-            // If there's already an element in that coordinate or distance to other laser is less than 1 try again.
-            while (nextGrid[0, platformPosY] != 0 || nextGrid[0, platformPosY + 1] == 1 || nextGrid[0, platformPosY - 1] == 1)
-            {
-                platformPosY = Random.Range(0, (int)gridHeight);
-            }
-            nextGrid[(int)xPosRange, platformPosY] = 1;
-            GameObject laser = nextLasers[p];
-            laser.SetActive(true);
-            laser.transform.position = new Vector3(ConvertGridToWorld((int)xPosRange), ConvertGridToWorld(platformPosY), elementsPosZ);
+            // Setting the size of the platform.
+            int platformSize = Random.Range(0, platformSizeNum);
+            
+            // Setting the position.
+            GameObject platform = nextPlatforms[p, platformSize];
+            platform.SetActive(true);
+            nextActivePlatforms[p] = platformSize;
+            PositionPlatform(platform, p, platformSize);
         }
-    }
 
-    // Finds an empty y coordinate for a laser.
-    private int PositionLaser()
-    {
-        int y = Random.Range(0, (int)gridHeight);
-        while (nextGrid[0, y] != 0) // There is an element in that coordinate.
+        // Setting the acid tanks on the platforms.
+        for (int a = 0; a < acidTankNum; ++a)
         {
-            y = Random.Range(0, (int)gridHeight);
+            GameObject acidTank = nextAcidTanks[a, nextActivePlatforms[a]];
+            acidTank.SetActive(true);
+            acidTank.transform.position = nextPlatforms[a, nextActivePlatforms[a]].transform.position + new Vector3(0, 0.31f, 0);
         }
-        nextGrid[0, y] = 1;
-        return y;
     }
 
-    // Repositioning and setting the charactaristics of the platform. Attributes are randomly generated.
-    //private void RecreatePlatform(int platformIdx)
-    //{
-    //    // Size.
-    //    platforms[platformIdx, activePlatforms[platformIdx]].SetActive(false); // Disabling the current platform.
-    //    int size = Random.Range(0, platformTypeNum); // Choosing a new platform size.
-    //    float platformBricks = (float)(size + 2);
-    //    activePlatforms[platformIdx] = size;
-    //    platforms[platformIdx, size].SetActive(true); // Enabling the new platform.
+    // Finds an empty Y coordinate for a laser and positions it there.
+    private void PositionLaser(int l)
+    {
+        int laserPos = Random.Range(0, (int)gridHeight - 1); // Distance of 1 from pit's end to avoid adjacent lasers with the next pit.
+                                                             // If there's already an element in that coordinate or distance to other laser is less than 1 try again.
+        while (nextGrid[0, laserPos] != 0 || nextGrid[0, laserPos + 1] == 1 || nextGrid[0, laserPos - 1] == 1)
+        {
+            laserPos = Random.Range(0, (int)gridHeight);
+        }
+        nextGrid[9, laserPos] = 1;
+        GameObject laser = nextLasers[l];
+        laser.SetActive(true);
+        laser.transform.position = new Vector3(0f, GridToWorldY(laserPos), elementsPosZ);
+    }
 
-    //    // Platform type.
-    //    int platformType = Random.Range(0, 4); // 0 - Empty, 1 - Accid barrel, 2 - Enemy, 3 - AcidTank.
+    // Finds an empty coordinate for a platform and positions it there.
+    private void PositionPlatform(GameObject platform, int p, int platformSize)
+    {
+        int x = Random.Range(0, (int)gridWidth);
+        int y = Random.Range(0, (int)gridHeight);
+        bool valid = CheckPositionValidity(x, y, platformSize);
+        while (!valid) // There is an element in that coordinate.
+        {
+            x = Random.Range(1, (int)gridWidth);
+            y = Random.Range(0, (int)gridHeight);
+            valid = CheckPositionValidity(x, y, platformSize);
+        }
+        platform.transform.position = new Vector3(GridToWorldX(x, platformSize), GridToWorldY(y), elementsPosZ);
+    }
 
-    //    // Repositioning.
-    //    float xPos = xPosRange - platformBricks;
-    //    xPos = 0.5f * Random.Range((int)-xPosRange, (int)xPosRange + 1);
-    //    float yPos = mainCamTrans.position.y - (ParallaxScript.frameHeight + Random.Range(0f, yPosRange) + platformIdx * yPosRange);
-    //    platforms[platformIdx, size].transform.position = new Vector3(xPos, yPos, -1f);
+    // Checks if the given coordinate is valid.
+    // The conditions are:
+    // 1. Don't overlap with other objects.
+    // 2. Minimal distance to laser is 4.
+    // 3. Minimal distacne to other platform on Y axis is 7 if overlap on X.
+    // 4. Minimal distance to other platform on X axis is 4.
+    // 5. Maximal platform number on the same level (Y axis) is 2.
+    private bool CheckPositionValidity(int x, int y, int size)
+    {
+        // Overlap.
+        bool overlap = false;
+        bool yOverlap = false;
+        // Hit the wall.
+        bool inWall = (x - (size + 2)) < -1;
+        // Close to laser.
+        bool closeToLaser = false;
+        // Number of platforms on the same level.
+        int levelPlatforms = 0;
+        bool twoPlatformsInLevel = false;
+        for (int i = 0; i < gridWidth; ++i)
+        {
+            int otherContent = nextGrid[i, y];
+            if (otherContent != 0 || Mathf.Abs(i - x) < minPlatformsDistanceX + 5)
+            {
+                overlap = true;
+            }
+            if (otherContent > 1)
+            {
+                levelPlatforms++;
+            }
+            for (int j = 1; j < 7; ++j)
+            {
+                int curY = y - j;
+                if (curY < 0)
+                {
+                    break;
+                }
+                otherContent = nextGrid[i, j];
+                if (otherContent - size > Mathf.Abs(i - x))
+                {
+                    yOverlap = true;
+                }
+            }
+        }
+        twoPlatformsInLevel = levelPlatforms > 1;
+        for (int k = -4; k < 5; ++k)
+        {
+            if (nextGrid[9, k] == 1)
+            {
+                closeToLaser = true;
+            }
+        }
 
-    //    // Cleaning the platform.
-    //    barrels[platformIdx].SetActive(false);
-    //    centrifuges[platformIdx].SetActive(false);
-
-    //    if (platformType == 1)
-    //    {
-
-    //        GameObject barrel = barrels[platformIdx];
-    //        barrel.SetActive(true);
-    //        float barrelPosX = xPos + platforms[platformIdx, size].transform.localScale.x * Random.Range(-0.75f, 0.75f);
-    //        float BarrelPosY = yPos + 2 * platforms[platformIdx, size].transform.localScale.y + barrel.transform.localScale.y;
-    //        barrel.transform.position = new Vector3(barrelPosX, BarrelPosY, -1);
-    //    }
-    //    else if (platformType == 2)
-    //    {
-
-    //        GameObject centrifuge = centrifuges[platformIdx];
-    //        centrifuge.SetActive(true);
-    //        float centrifugePosX = xPos + platforms[platformIdx, size].transform.localScale.x * Random.Range(-0.75f, 0.75f);
-    //        float centrifugePosy = yPos + platforms[platformIdx, size].transform.localScale.y + centrifuge.transform.localScale.y;
-    //        centrifuge.transform.position = new Vector3(centrifugePosX, centrifugePosy, -1);
-    //    }
-    //}
+        return !overlap && !yOverlap && !inWall && !closeToLaser && !twoPlatformsInLevel;
+    }
 
     // Returns the number of lasers to appear in the frame.
     // 0.25 - No lasers, 0.5 - One laser, 0.25 - Two lasers.
@@ -380,10 +403,16 @@ public class PlatformElementsScript : MonoBehaviour
     }
 
     // TODO: Fix mapping.
-    // Recieves a coordinate on the grid and returns it's world position.
-    private float ConvertGridToWorld(int coordinate)
+    // Recieves a coordinate on the grid's X axis and returns it's world position.
+    private float GridToWorldX(int coordinate, int size)
     {
-        return ((float)coordinate + 0.5f) * gridUnit;
+        return ((float)coordinate + 0.5f * (float)(size % 2) - xPosRange) * gridUnit;
+    }
+
+    // Recieves a coordinate on the grid's Y axis and returns it's world position.
+    private float GridToWorldY(int coordinate)
+    {
+        return ((float)coordinate + 0.5f - yPosRange) * gridUnit;
     }
 
     // Recieves a world position and returns it's coordinate on the grid.

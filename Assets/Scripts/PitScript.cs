@@ -13,7 +13,7 @@ public class PitScript : MonoBehaviour
     {
         cam = Camera.main.transform;
 
-        pitWidth = 6.7f; // Was 6.9f. 6.7 == 20 grid units.
+        pitWidth = 6.03f; // Was 6.9f. 6.03 == 18 grid units.
         pitHeight = 15.41f; // Was 15.62f. 15.41 == 46 grid units.
     }
 
