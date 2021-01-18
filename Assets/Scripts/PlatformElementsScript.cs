@@ -18,7 +18,8 @@ public class PlatformElementsScript : MonoBehaviour
     private float yPosRange;
 
     // Pits.
-    private float previosPitPosition;
+    private float previousPitPosition;
+    private float nextPitPosition;
 
     // Constants.
     private int platmormsNum = 5;
@@ -71,7 +72,8 @@ public class PlatformElementsScript : MonoBehaviour
         gridHeight = PitScript.pitHeight / gridUnit; // 46.
         xPosRange = 0.5f * gridWidth;
         yPosRange = 0.5f * gridHeight;
-        previosPitPosition = 15.62f;
+        previousPitPosition = 15.62f;
+        nextPitPosition = -15.62f;
     }
 
     // Start is called before the first frame update
@@ -147,8 +149,10 @@ public class PlatformElementsScript : MonoBehaviour
         if (doneStart)
         {
             // If pit is too far above reposition it.
-            if (previosPitPosition - mainCamTrans.position.y > maxPreviosPitDistance)
+            if (previousPitPosition - mainCamTrans.position.y > maxPreviosPitDistance)
             {
+                previousPitPosition -= 15.62f;
+                nextPitPosition -= 15.62f;
                 // Transferring the grids by pointers and clearing the previous grid.
                 previousGrid = curGrid;
                 curGrid = nextGrid;
@@ -416,7 +420,7 @@ public class PlatformElementsScript : MonoBehaviour
     // Recieves a coordinate on the grid's Y axis and returns it's world position.
     private float GridToWorldY(int coordinate)
     {
-        return ((float)coordinate + 0.5f - yPosRange) * gridUnit;
+        return ((float)coordinate + 0.5f - yPosRange) * gridUnit + nextPitPosition;
     }
 
     // Recieves a world position and returns it's coordinate on the grid.
