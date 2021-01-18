@@ -158,7 +158,7 @@ public class GameController : MonoBehaviour
         }
         else
         {
-            hearts[currHearts - 1].enabled = false;
+            hearts[currHearts].enabled = false;
         }
     }
 

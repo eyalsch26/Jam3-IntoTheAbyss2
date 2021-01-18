@@ -9,6 +9,7 @@ TagManager:
   - EnemyShot
   - Shot
   - Hazard
+  - Laser
   layers:
   - Default
   - TransparentFX

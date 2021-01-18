@@ -42,7 +42,9 @@ public class ShotScript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Player" && playerShot)
+        if (collision.tag == "Shot" ||
+            collision.tag == "EnemyShot" || 
+            collision.tag == "Player" && playerShot)
         {
             return;
         }

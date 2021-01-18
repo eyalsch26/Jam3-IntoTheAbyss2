@@ -86,10 +86,10 @@ public class playerMovement : MonoBehaviour
         }
 
         // Tracking with the camera after the character.
-        //float cameraOffset = Mathf.Min(0, 0.95f * prevY + 0.05f * (body.velocity.y / (maxVerticalSpeed / 5)));
-        //mainCamera.transform.position = new Vector3(mainCamera.transform.position.x, transform.position.y + cameraOffset, mainCamera.transform.position.z);
-        //prevY = cameraOffset;
-        mainCamera.transform.position = new Vector3(mainCamera.transform.position.x, transform.position.y, mainCamera.transform.position.z);
+        float cameraOffset = Mathf.Min(0, 0.95f * prevY + 0.05f * (2 * body.velocity.y / (maxVerticalSpeed )));
+        mainCamera.transform.position = new Vector3(mainCamera.transform.position.x, transform.position.y + cameraOffset, mainCamera.transform.position.z);
+        prevY = cameraOffset;
+        //mainCamera.transform.position = new Vector3(mainCamera.transform.position.x, transform.position.y, mainCamera.transform.position.z);
 
         // during rope casting:
         if (isRoping)
@@ -97,10 +97,11 @@ public class playerMovement : MonoBehaviour
             lineCast();
         }
 
-        //if (shieldOn)
-        //{
-        //    maintainShield();
-        //}
+        if (shieldOn)
+        {
+            //maintainShield();
+            shield.transform.Rotate(0, 0, 20 * Time.deltaTime);
+        }
     }
 
 
@@ -228,17 +229,23 @@ public class playerMovement : MonoBehaviour
         }
         currMode = mode;
         rig.transform.Find("PlayerMesh").gameObject.GetComponent<SkinnedMeshRenderer>().material = modeSuit;
+        if (shieldOn && mode != 'r')
+        {
+            shieldOn = false;
+            shield.SetActive(false);    
+        }
     }
 
     private void takeHit()
     {
+        if (shieldOn) return;
         animate.takeHit();
         manager.loseHeart();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "EnemyShot")
+        if (collision.tag == "EnemyShot" || collision.tag == "Laser")
         {
             takeHit();
         }
@@ -260,6 +267,7 @@ public class playerMovement : MonoBehaviour
     {
         if (collision.collider.tag == "Hazard")
         {
+            hazardKickBack(collision.GetContact(0).point);
             takeHit();
         }
 
@@ -275,6 +283,13 @@ public class playerMovement : MonoBehaviour
             }
         }
     }
+
+    void hazardKickBack(Vector2 touchPoint)
+    {
+        Vector2 kickBack = (body.position - touchPoint).normalized * jumpForce;
+        body.AddForce(kickBack, ForceMode2D.Impulse);
+    }
+
 
     private void OnCollisionExit2D(Collision2D collision)
     {

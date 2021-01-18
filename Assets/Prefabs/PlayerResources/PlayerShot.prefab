@@ -4908,7 +4908,6 @@ GameObject:
   - component: {fileID: 7580351171653654189}
   - component: {fileID: 1599134406845499860}
   - component: {fileID: 4892374205012907524}
-  - component: {fileID: 4223089951182699585}
   m_Layer: 0
   m_Name: eShot
   m_TagString: EnemyShot
@@ -4981,22 +4980,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!58 &4223089951182699585
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 972217312249111970}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.49999997
 --- !u!1 &2879574774435798916
 GameObject:
   m_ObjectHideFlags: 0
@@ -5008,7 +4991,6 @@ GameObject:
   - component: {fileID: 148796210361358866}
   - component: {fileID: 8867763090137544853}
   - component: {fileID: 930744287225524922}
-  - component: {fileID: 566942074844831214}
   m_Layer: 0
   m_Name: pShot
   m_TagString: Shot
@@ -5081,22 +5063,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!58 &566942074844831214
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2879574774435798916}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.49999997
 --- !u!1 &7240190402374446814
 GameObject:
   m_ObjectHideFlags: 0
