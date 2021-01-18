@@ -33,7 +33,7 @@ public class PitScript : MonoBehaviour
             float camBgDis = Mathf.Abs(cam.position.y - curPosY);
             if (camBgDis > 2f * pitHeight)
             {
-                curPosY = pits[(i + 1) % pits.Length].transform.position.y - pitHeight;
+                curPosY = pits[(i + 1) % pits.Length].transform.position.y - 2f * pitHeight;
                 pits[i].transform.position = new Vector3(curPosX, curPosY, curPosZ);
             }
         }

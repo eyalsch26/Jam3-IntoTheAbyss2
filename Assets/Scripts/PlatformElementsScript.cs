@@ -137,7 +137,6 @@ public class PlatformElementsScript : MonoBehaviour
             }
             //barrels[i] = Instantiate(Resources.Load("Acid Barrel")) as GameObject;
             //centrifuges[i] = Instantiate(Resources.Load("Centrifuge")) as GameObject;
-            //RecreatePlatform(i);
         }
 
         doneStart = true;
@@ -249,7 +248,7 @@ public class PlatformElementsScript : MonoBehaviour
             GameObject platform = nextPlatforms[p, platformSize];
             platform.SetActive(true);
             nextActivePlatforms[p] = platformSize;
-            PositionPlatform(platform, p, platformSize);
+            PositionPlatform(platform, platformSize);
         }
 
         // Setting the acid tanks on the platforms.
@@ -277,17 +276,18 @@ public class PlatformElementsScript : MonoBehaviour
     }
 
     // Finds an empty coordinate for a platform and positions it there.
-    private void PositionPlatform(GameObject platform, int p, int platformSize)
+    private void PositionPlatform(GameObject platform, int platformSize)
     {
-        int x = Random.Range(0, (int)gridWidth);
+        int x = Random.Range((platformSize / 2) + 1, (int)gridWidth - (platformSize / 2));
         int y = Random.Range(0, (int)gridHeight);
-        //bool valid = CheckPositionValidity(x, y, platformSize);
-        //while (!valid) // There is an element in that coordinate.
-        //{
-        //    x = Random.Range(1, (int)gridWidth);
-        //    y = Random.Range(0, (int)gridHeight);
-        //    valid = CheckPositionValidity(x, y, platformSize);
-        //}
+        bool valid = CheckPositionValidity(x, y, platformSize);
+        while (!valid) // There is an element in that coordinate.
+        {
+            x = Random.Range((platformSize / 2) + 1, (int)gridWidth - (platformSize / 2));
+            y = Random.Range(0, (int)gridHeight);
+            valid = CheckPositionValidity(x, y, platformSize);
+        }
+        nextGrid[x, y] = platformSize + 2;
         platform.transform.position = new Vector3(GridToWorldX(x, platformSize), GridToWorldY(y), elementsPosZ);
     }
 
@@ -300,22 +300,14 @@ public class PlatformElementsScript : MonoBehaviour
     // 5. Maximal platform number on the same level (Y axis) is 2.
     private bool CheckPositionValidity(int x, int y, int size)
     {
-        // Overlap.
-        bool overlap = false;
-        bool yOverlap = false;
-        // Hit the wall.
-        bool inWall = (x - (size + 2)) < -1;
-        // Close to laser.
-        bool closeToLaser = false;
         // Number of platforms on the same level.
         int levelPlatforms = 0;
-        bool twoPlatformsInLevel = false;
         for (int i = 0; i < gridWidth; ++i)
         {
             int otherContent = nextGrid[i, y];
-            if (otherContent != 0 || Mathf.Abs(i - x) < minPlatformsDistanceX + 5)
+            if (otherContent != 0 && Mathf.Abs(i - x) < minPlatformsDistanceX + 5)
             {
-                overlap = true;
+                return false;
             }
             if (otherContent > 1)
             {
@@ -331,24 +323,27 @@ public class PlatformElementsScript : MonoBehaviour
                 otherContent = nextGrid[i, j];
                 if (otherContent - size > Mathf.Abs(i - x))
                 {
-                    yOverlap = true;
+                    return false;
                 }
             }
         }
-        twoPlatformsInLevel = levelPlatforms > 1;
+        if (levelPlatforms > 1)
+        {
+            return false;
+        }
         for (int k = -minDistLaserPlatform; k < minDistLaserPlatform + 1; ++k)
         {
-            if(y + k < 0 || y + k > gridWidth)
+            if (y + k < 0 || y + k > gridWidth)
             {
                 continue;
             }
             if (nextGrid[9, y + k] == 1)
             {
-                closeToLaser = true;
+                return false;
             }
         }
 
-        return !overlap && !yOverlap && !inWall && !closeToLaser && !twoPlatformsInLevel;
+        return true;
     }
 
     // Returns the number of lasers to appear in the frame.
