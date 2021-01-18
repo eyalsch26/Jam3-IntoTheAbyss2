@@ -21,12 +21,11 @@ public class PlatformElementsScript : MonoBehaviour
     private float previosPitPosition;
 
     // Constants.
-    private int pitsNum = 3;
     private int platmormsNum = 5;
     private int platformSizeNum = 4;
     private int lasersNum = 2;
-    private int barrelsNum = 5;
-    private int enemiesNum = 5;
+    //private int barrelsNum = 5;
+    //private int enemiesNum = 5;
     private int minPlatformsDistanceX = 4; // In grid units.
     private int minPlatformsDistanceY = 7; // In grid units.
     private int minDistLaserPlatform = 4; // In grid units.
@@ -44,6 +43,7 @@ public class PlatformElementsScript : MonoBehaviour
     private float threePlatformsProbability = 0.3f;
 
     // Data sturctures.
+    public GameObject[] prefabPlatfroms;
     private int[] previousActivePlatforms; // -1-Not active, 0..3-Type fo platform.
     private int[] curActivePlatforms; // -1-Not active, 0..3-Type fo platform.
     private int[] nextActivePlatforms; // -1-Not active, 0..3-Type fo platform.
@@ -120,7 +120,7 @@ public class PlatformElementsScript : MonoBehaviour
             for (int j = 0; j < platformSizeNum; ++j)
             {
                 // Platforms.
-                GameObject platform = Instantiate(Resources.Load("Platform" + (j + 2))) as GameObject;
+                GameObject platform = Instantiate(prefabPlatfroms[j]) as GameObject; // Instantiate(Resources.Load("Platform" + (j + 2))) as GameObject;
                 platform.SetActive(false);
                 previousPlatforms[i, j] = platform;
                 curPlatforms[i, j] = platform;
@@ -133,8 +133,8 @@ public class PlatformElementsScript : MonoBehaviour
                 curAcidTanks[i, j] = acidTank;
                 nextAcidTanks[i, j] = acidTank;
             }
-            barrels[i] = Instantiate(Resources.Load("Acid Barrel")) as GameObject;
-            centrifuges[i] = Instantiate(Resources.Load("Centrifuge")) as GameObject;
+            //barrels[i] = Instantiate(Resources.Load("Acid Barrel")) as GameObject;
+            //centrifuges[i] = Instantiate(Resources.Load("Centrifuge")) as GameObject;
             //RecreatePlatform(i);
         }
 
@@ -260,7 +260,7 @@ public class PlatformElementsScript : MonoBehaviour
     // Finds an empty Y coordinate for a laser and positions it there.
     private void PositionLaser(int l)
     {
-        int laserPos = Random.Range(0, (int)gridHeight - 1); // Distance of 1 from pit's end to avoid adjacent lasers with the next pit.
+        int laserPos = Random.Range(1, (int)gridHeight - minLasersDistance); // Distance of 1 from pit's end to avoid adjacent lasers with the next pit.
                                                              // If there's already an element in that coordinate or distance to other laser is less than 1 try again.
         while (nextGrid[0, laserPos] != 0 || nextGrid[0, laserPos + 1] == 1 || nextGrid[0, laserPos - 1] == 1)
         {
@@ -277,13 +277,13 @@ public class PlatformElementsScript : MonoBehaviour
     {
         int x = Random.Range(0, (int)gridWidth);
         int y = Random.Range(0, (int)gridHeight);
-        bool valid = CheckPositionValidity(x, y, platformSize);
-        while (!valid) // There is an element in that coordinate.
-        {
-            x = Random.Range(1, (int)gridWidth);
-            y = Random.Range(0, (int)gridHeight);
-            valid = CheckPositionValidity(x, y, platformSize);
-        }
+        //bool valid = CheckPositionValidity(x, y, platformSize);
+        //while (!valid) // There is an element in that coordinate.
+        //{
+        //    x = Random.Range(1, (int)gridWidth);
+        //    y = Random.Range(0, (int)gridHeight);
+        //    valid = CheckPositionValidity(x, y, platformSize);
+        //}
         platform.transform.position = new Vector3(GridToWorldX(x, platformSize), GridToWorldY(y), elementsPosZ);
     }
 
@@ -317,7 +317,7 @@ public class PlatformElementsScript : MonoBehaviour
             {
                 levelPlatforms++;
             }
-            for (int j = 1; j < 7; ++j)
+            for (int j = 1; j < minPlatformsDistanceY; ++j)
             {
                 int curY = y - j;
                 if (curY < 0)
@@ -332,9 +332,13 @@ public class PlatformElementsScript : MonoBehaviour
             }
         }
         twoPlatformsInLevel = levelPlatforms > 1;
-        for (int k = -4; k < 5; ++k)
+        for (int k = -minDistLaserPlatform; k < minDistLaserPlatform + 1; ++k)
         {
-            if (nextGrid[9, k] == 1)
+            if(y + k < 0 || y + k > gridWidth)
+            {
+                continue;
+            }
+            if (nextGrid[9, y + k] == 1)
             {
                 closeToLaser = true;
             }

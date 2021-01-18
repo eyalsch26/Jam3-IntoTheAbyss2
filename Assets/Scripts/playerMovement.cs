@@ -47,8 +47,8 @@ public class playerMovement : MonoBehaviour
         rig = transform.Find("PlayerRig").gameObject;
         animate = rig.GetComponent<PlayerAnimationManager>();
         currMode = 'r';
-        shield = transform.Find("Shield").gameObject;
-        stopShield();
+        //shield = transform.Find("Shield").gameObject;
+        //stopShield();
     }
 
     // Update is called once per frame
