@@ -21,7 +21,7 @@ public class EnemyScript : MonoBehaviour
 
     IEnumerator startRadiationFire()
     {
-        while(gameObject.active)
+        while(gameObject.activeSelf)
         {
             yield return new WaitForSeconds(3f);
             int angle = Random.Range(30, 50);
