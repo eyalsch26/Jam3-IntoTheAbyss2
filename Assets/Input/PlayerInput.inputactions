@@ -57,19 +57,8 @@
             "bindings": [
                 {
                     "name": "",
-                    "id": "4222f5de-938f-48e4-89c9-b42ac3f7e3b1",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "Press",
-                    "processors": "",
-                    "groups": "PC player",
-                    "action": "Shoot",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "8a1a3044-1cb7-4587-b65d-d298853fae56",
-                    "path": "<Keyboard>/leftCtrl",
+                    "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "PC player",
@@ -197,6 +186,17 @@
                     "action": "ChangeMode",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "4222f5de-938f-48e4-89c9-b42ac3f7e3b1",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "PC player",
+                    "action": "Shoot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

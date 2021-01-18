@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3392976939355445235}
   m_Layer: 0
   m_Name: White with Red
-  m_TagString: Untagged
+  m_TagString: Platform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -86,6 +86,10 @@ PrefabInstance:
     - target: {fileID: 3285915994912015675, guid: e0f200649b0e183449d98cf9aaa99835, type: 3}
       propertyPath: m_Name
       value: White Platform
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285915994912015675, guid: e0f200649b0e183449d98cf9aaa99835, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e0f200649b0e183449d98cf9aaa99835, type: 3}

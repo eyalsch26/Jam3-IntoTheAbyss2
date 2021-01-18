@@ -37,10 +37,12 @@ public class PlayerInputWrapper : MonoBehaviour
         if (walkInput == -1)
         {
             controller.turnLeft(true);
+            animate.isWalking = true;
         }
         else if (walkInput == 1)
         {
             controller.turnLeft(false);
+            animate.isWalking = true;
         }
         animate.setWalking(walkInput != 0);
     }
@@ -59,9 +61,9 @@ public class PlayerInputWrapper : MonoBehaviour
         {
             controller.shoot();
         }
-        if (controller.shieldOn && context.phase == InputActionPhase.Canceled)
+        if (context.phase == InputActionPhase.Canceled)
         {
-            controller.stopShield();
+            controller.stopShoot();
         }
     }
 

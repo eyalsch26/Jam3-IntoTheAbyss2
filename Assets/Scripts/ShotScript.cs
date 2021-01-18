@@ -12,7 +12,7 @@ public class ShotScript : MonoBehaviour
     public float lifeTime;
     private float currLifeTime;
 
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -49,11 +49,4 @@ public class ShotScript : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    //private void OnCollisionEnter2D(Collision2D collision)
-    //{
-    //    if (collision.collider.tag != "Player" || !playerShot)
-    //    {
-    //        this.gameObject.SetActive(false);
-    //    }
-    //}
 }

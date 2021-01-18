@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4448632386815543109}
   m_Layer: 0
   m_Name: Platform3
-  m_TagString: Untagged
+  m_TagString: Platform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -115,6 +115,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: White with Red (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 3671254580918232724, guid: f67202ef2a5fed74796c92f657ca7b48, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f67202ef2a5fed74796c92f657ca7b48, type: 3}
 --- !u!4 &5681716105922385825 stripped
@@ -177,6 +181,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: White with Red (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 3671254580918232724, guid: f67202ef2a5fed74796c92f657ca7b48, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f67202ef2a5fed74796c92f657ca7b48, type: 3}
 --- !u!4 &5681716107896504956 stripped
@@ -238,6 +246,10 @@ PrefabInstance:
     - target: {fileID: 3671254580918232724, guid: f67202ef2a5fed74796c92f657ca7b48, type: 3}
       propertyPath: m_Name
       value: White with Red
+      objectReference: {fileID: 0}
+    - target: {fileID: 3671254580918232724, guid: f67202ef2a5fed74796c92f657ca7b48, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f67202ef2a5fed74796c92f657ca7b48, type: 3}
