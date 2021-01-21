@@ -17,9 +17,9 @@ public class GhostScript : MonoBehaviour
     void Start()
     {
         alive = true;
-        StartCoroutine(shootAtPlayerCycle());
         manager = GameObject.Find("Level").GetComponent<GameController>();
         pTransform = GameObject.Find("Player").GetComponent<Transform>();
+        StartCoroutine(shootAtPlayerCycle());
     }
 
     // Update is called once per frame
