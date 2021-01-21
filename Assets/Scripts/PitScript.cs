@@ -20,12 +20,12 @@ public class PitScript : MonoBehaviour
     private float maxDistanceFromRoom= 7.81f;
     private float pitPositionY;
     private float xPos = 0f;
-    private float zPos = 4.775f;
-    
+    private float zPos = 0f;
+
     // Data sturctures.
+    public GameObject[] publicRooms;
     private GameObject[,] rooms; // Room == two pits. Levels x Rooms.
     private int[] activeRooms; // Levels x Rooms. The j'th room in the i'th difficulty is active == activeRooms[i] == j. Otherwise -1.
-    public GameObject[] pits;
 
     private void Awake()
     {
@@ -38,12 +38,15 @@ public class PitScript : MonoBehaviour
 
     private void Start()
     {
+        rooms = new GameObject[levelsNum, roomsNum];
+        activeRooms = new int[levelsNum];
+
         // Initializes the pool of rooms accoriding to their level.
         for (int l = 0; l < levelsNum; ++l)
         {
             for (int r = 0; r < roomsNum; ++r)
             {
-                GameObject room = Instantiate(Resources.Load("Difficulty" + l + "Room" + r)) as GameObject;
+                GameObject room = Instantiate(Resources.Load("Difficulty" + l + "Room" + r)) as GameObject; // Instantiate(publicRooms[(l % levelsNum) * levelsNum + (r % roomsNum)]) as GameObject;
                 room.SetActive(false);
                 rooms[l, r] = room;
             }
