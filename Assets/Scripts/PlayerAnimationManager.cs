@@ -7,7 +7,8 @@ public class PlayerAnimationManager : MonoBehaviour
 {
     public Transform aimTarget;
     public playerMovement movementScript;
-    public Camera mainCamera;
+    public SkinnedMeshRenderer mesh;
+    public Material hitMaterial;
     private Animator animator;
     public bool isWalking;
 
@@ -41,6 +42,7 @@ public class PlayerAnimationManager : MonoBehaviour
     public void takeHit()
     {
         animator.SetBool(Animator.StringToHash("takeHit"), true);
+        StartCoroutine(FadeTo(0, 0.25f));
     }
 
     public void setGrounded(bool isGrounded)
@@ -57,5 +59,29 @@ public class PlayerAnimationManager : MonoBehaviour
         {
             movementScript.turnLeft(pos.x < transform.position.x);
         }
+    }
+
+    IEnumerator FadeTo(float aValue, float aTime)
+    {
+        Material startMat = mesh.material;
+        hitMaterial.color = startMat.color;
+        mesh.material = hitMaterial;
+
+        for (int i = 0; i < 4; i++)
+        {
+            for (float t = 0.0f; t < 1.0f; t += Time.unscaledDeltaTime / aTime)
+            {
+                Color newColor = new Color(1, 1, 1, Mathf.Lerp(1, aValue, t));
+                mesh.material.color = newColor;
+                yield return null;
+            }
+            for (float t = 0.0f; t < 1.0f; t += Time.unscaledDeltaTime / aTime)
+            {
+                Color newColor = new Color(1, 1, 1, Mathf.Lerp(aValue, 1, t));
+                mesh.material.color = newColor;
+                yield return null;
+            }
+        }
+        mesh.material = startMat;
     }
 }

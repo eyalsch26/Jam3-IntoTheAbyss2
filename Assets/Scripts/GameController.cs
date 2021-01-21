@@ -57,7 +57,7 @@ public class GameController : MonoBehaviour
             linkPool[i] = Instantiate(linkPrefab);
             linkPool[i].SetActive(false);
         }
-        currLinkIdx = 0;
+        currLinkIdx = -1;
 
         // Initializing shots.
         shotPool = new GameObject[shotPoolNum];
@@ -80,12 +80,12 @@ public class GameController : MonoBehaviour
 
     public GameObject getLink()
     {
-        GameObject link = linkPool[currLinkIdx];
         currLinkIdx++;
         if (currLinkIdx > linkPoolNum - 1)
         {
             currLinkIdx = 0;
         }
+        GameObject link = linkPool[currLinkIdx];
         link.SetActive(true);
         
         return link;

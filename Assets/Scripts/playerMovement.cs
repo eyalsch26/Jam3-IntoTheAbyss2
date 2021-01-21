@@ -7,7 +7,7 @@ using UnityEngine.Animations.Rigging;
 
 public class playerMovement : MonoBehaviour
 {
-    float prevY = 0;
+    
 
     public GameController manager;
     public float moveForce;
@@ -21,9 +21,12 @@ public class playerMovement : MonoBehaviour
     public float maxVerticalSpeed; // Units per second.
     bool isOnGround = false;
     public float distToGround;
-
+    bool invincible = false;
     Rigidbody2D body;
+
+    // camera:
     private Camera mainCamera;
+    float prevY = 0;
     private GameObject rig;
     private PlayerAnimationManager animate;
     //public MultiAimConstraint headAim;
@@ -31,7 +34,6 @@ public class playerMovement : MonoBehaviour
     // shield vars:
     private GameObject shield;
     public bool shieldOn = false;
-
 
     // rope vars:
     public float maxRopeLength;
@@ -86,7 +88,7 @@ public class playerMovement : MonoBehaviour
         }
 
         // Tracking with the camera after the character.
-        float cameraOffset = Mathf.Min(0, 0.95f * prevY + 0.05f * (2 * body.velocity.y / (maxVerticalSpeed )));
+        float cameraOffset = Mathf.Min(0, 0.95f * prevY + 0.05f * (1.8f * body.velocity.y / (maxVerticalSpeed )));
         mainCamera.transform.position = new Vector3(mainCamera.transform.position.x, transform.position.y + cameraOffset, mainCamera.transform.position.z);
         prevY = cameraOffset;
         //mainCamera.transform.position = new Vector3(mainCamera.transform.position.x, transform.position.y, mainCamera.transform.position.z);
@@ -107,13 +109,14 @@ public class playerMovement : MonoBehaviour
 
     public void move(char dir)
     {
+        float midAirFactor = (isOnGround) ? 1 : 0.2f;
         if (dir == 'l')
         {
-            body.AddForce(Vector3.left * moveForce, ForceMode2D.Impulse);
+            body.AddForce(Vector3.left * moveForce * midAirFactor, ForceMode2D.Impulse);
         }
         else if (dir == 'r')
         {
-            body.AddForce(Vector3.right * moveForce, ForceMode2D.Impulse);
+            body.AddForce(Vector3.right * moveForce * midAirFactor, ForceMode2D.Impulse);
         }
     }
 
@@ -165,6 +168,7 @@ public class playerMovement : MonoBehaviour
         }
         if (currMode == 'r')
         {
+            isRoping = false;
             generateRope(ropeEnd);
         }
     }
@@ -238,9 +242,18 @@ public class playerMovement : MonoBehaviour
 
     private void takeHit()
     {
-        if (shieldOn) return;
+        if (invincible || shieldOn) return;
+        StartCoroutine(tempInvincibility(2));
         animate.takeHit();
         manager.loseHeart();
+
+        IEnumerator tempInvincibility(float time)
+        {
+            invincible = true;
+            yield return new WaitForSeconds(time);
+            invincible = false;
+        }
+            
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -305,15 +318,6 @@ public class playerMovement : MonoBehaviour
         }
     }
 
-    //void startRope(Vector3 pos)
-    //{
-    //    GameObject newLink = manager.getLink();
-    //    newLink.transform.position = pos;
-    //    newLink.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
-    //    newLink.GetComponent<Collider2D>().enabled = false;
-    //    currRope.Add(newLink);
-    //}
-
     GameObject ropeLinkHandler(Vector3 pos)
     {
         GameObject newLink = manager.getLink();
@@ -325,6 +329,10 @@ public class playerMovement : MonoBehaviour
 
     void lineCast()
     {
+        if (currRope.Count == 0)
+        {
+            return;
+        }
         Vector3 pos1 = currRope[0].transform.position;
         ropeLine.SetPosition(0, pos1);
         if ((mousePos - pos1).magnitude <= maxRopeLength)
@@ -340,8 +348,11 @@ public class playerMovement : MonoBehaviour
 
     void generateRope(Vector3 endPos)
     {
+        if (currRope.Count == 0)
+        {
+            return;
+        }
         ropeLine.enabled = false;
-        isRoping = false;
         GameObject p1 = currRope[0];
         GameObject p2 = ropeLinkHandler(endPos);
         Vector3 pos1 = p1.transform.position;
