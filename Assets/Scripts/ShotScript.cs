@@ -5,7 +5,9 @@ using UnityEngine;
 public class ShotScript : MonoBehaviour
 {
     public bool playerShot;
-    public float shotSpeed;
+    public float playerShotSpeed;
+    public float enemyShotSpeed;
+    private float currShotSpeed;
     public GameObject pShot;
     public GameObject eShot;
 
@@ -22,7 +24,7 @@ public class ShotScript : MonoBehaviour
     // Update is called once per frame
     private void FixedUpdate()
     {
-        Vector3 move = transform.up * Time.deltaTime * shotSpeed;
+        Vector3 move = transform.up * Time.deltaTime * currShotSpeed;
         transform.position += move;
         currLifeTime -= Time.deltaTime;
         if (currLifeTime <= 0)
@@ -37,6 +39,7 @@ public class ShotScript : MonoBehaviour
         pShot.SetActive(isPlayer);
         eShot.SetActive(!isPlayer);
         currLifeTime = lifeTime;
+        currShotSpeed = (isPlayer) ? playerShotSpeed : enemyShotSpeed;
         gameObject.tag = (isPlayer) ? "Shot" : "EnemyShot";
     }
 

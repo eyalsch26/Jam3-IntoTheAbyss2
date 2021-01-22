@@ -54,15 +54,16 @@ public class GhostScript : MonoBehaviour
         GameObject shot;
         while (alive)        
         {
+            float t = Random.Range(-1, 1);
+            yield return new WaitForSeconds(avgShotTimeGap + t);
             Vector3 shootDirection = pTransform.position - ghost.transform.position;
             if ((ghost.transform.position - pTransform.position).magnitude < shootDistance)
             {
                 shot = manager.getShot(false);
-                shot.transform.position = transform.position + 0.1f * shootDirection.normalized;
+                shot.transform.position = transform.position + 0.2f * shootDirection.normalized;
                 shot.transform.up = shootDirection;
+                Debug.Log("enemy shot!");
             }
-            float t = Random.Range(-1, 1);
-            yield return new WaitForSeconds(avgShotTimeGap + t);
         }
     }
 
