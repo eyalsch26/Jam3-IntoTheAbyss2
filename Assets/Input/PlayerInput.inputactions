@@ -133,61 +133,6 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "2D Vector",
-                    "id": "1376bdf4-596b-49e1-9542-75897f389daf",
-                    "path": "2DVector",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ChangeMode",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "up",
-                    "id": "d54f3ad8-7567-415e-bd3a-6c0e041afd0d",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "PC player",
-                    "action": "ChangeMode",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "down",
-                    "id": "77733b6f-e712-4e4f-b752-8f8c891f73bd",
-                    "path": "<Keyboard>/2",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "PC player",
-                    "action": "ChangeMode",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "left",
-                    "id": "307484b2-88a0-48d8-9c71-79f07d188001",
-                    "path": "<Keyboard>/1",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "PC player",
-                    "action": "ChangeMode",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "right",
-                    "id": "70018e60-3747-4f76-a158-b6b6a841930b",
-                    "path": "<Keyboard>/3",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "PC player",
-                    "action": "ChangeMode",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
                     "name": "",
                     "id": "4222f5de-938f-48e4-89c9-b42ac3f7e3b1",
                     "path": "<Mouse>/leftButton",
@@ -195,6 +140,17 @@
                     "processors": "",
                     "groups": "PC player",
                     "action": "Shoot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c58ae6bb-6ca5-4703-b084-a4c9be7a1718",
+                    "path": "<Mouse>/scroll",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChangeMode",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

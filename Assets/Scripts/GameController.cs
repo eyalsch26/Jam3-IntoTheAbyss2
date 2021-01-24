@@ -8,19 +8,6 @@ public class GameController : MonoBehaviour
 {
     Camera mainCamera;
     GameObject player;
-    public Image sloMoSign;
-    public List<Image> hearts;
-    private int currHearts = 3;
-    //public GameObject obstaclePrefab;
-    //public GameObject boundaries; 
-    //private GameObject[] obstaclesPool;
-    //private float frameHeight;
-    //private float frameWidth;
-    //private float parallaxObstaclesFactor;
-    //private float minObstaclesGap;
-    //private float maxObstaclesGap;
-    //private float speed;
-
 
     // Link Object Pooling:
     public GameObject linkPrefab;
@@ -42,7 +29,6 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        sloMoSign.enabled = false;
         //frameHeight = 32f;
         //frameWidth = 18f;
         //parallaxObstaclesFactor = 0.9f;
@@ -78,7 +64,7 @@ public class GameController : MonoBehaviour
         //}
     }
 
-    public GameObject getLink()
+    public GameObject getLink(bool isStart)
     {
         currLinkIdx++;
         if (currLinkIdx > linkPoolNum - 1)
@@ -87,6 +73,10 @@ public class GameController : MonoBehaviour
         }
         GameObject link = linkPool[currLinkIdx];
         link.SetActive(true);
+        if (isStart)
+        {
+            link.transform.Find("startLink").gameObject.SetActive(true);
+        }
         
         return link;
     }
@@ -95,6 +85,7 @@ public class GameController : MonoBehaviour
     {
         link.GetComponent<SpringJoint2D>().connectedBody = null;
         link.GetComponent<Collider2D>().enabled = true;
+        link.transform.Find("startLink").gameObject.SetActive(false);
         link.SetActive(false);
     }
 
@@ -110,15 +101,6 @@ public class GameController : MonoBehaviour
         }
         shotScript.setUpShot(isPlayer);
         return shot;
-    }
-
-    public void sloMoStart()
-    {
-        sloMoSign.enabled = true;
-    }
-    public void sloMoEnd()
-    {
-        sloMoSign.enabled = false;
     }
 
     //private void SetObstacles()
@@ -149,17 +131,22 @@ public class GameController : MonoBehaviour
         //setBoundaries();
     }
 
-    public void loseHeart()
+    public void gameOver()
     {
-        currHearts--;
-        if (currHearts == 0)
-        {
-            SceneManager.LoadScene(2);
-        }
-        else
-        {
-            hearts[currHearts].enabled = false;
-        }
+        SceneManager.LoadScene(2);
     }
+
+    //public void loseHeart()
+    //{
+    //    currHearts--;
+    //    if (currHearts == 0)
+    //    {
+    //        SceneManager.LoadScene(2);
+    //    }
+    //    else
+    //    {
+    //        hearts[currHearts].enabled = false;
+    //    }
+    //}
 
 }

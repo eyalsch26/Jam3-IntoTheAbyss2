@@ -11,6 +11,7 @@ public class GhostScript : MonoBehaviour
     public float shootDistance;
     public float avgShotTimeGap;
     Transform pTransform;
+    public Transform gunTransform;
     bool alive;
 
     // Start is called before the first frame update
@@ -47,6 +48,8 @@ public class GhostScript : MonoBehaviour
         Vector3 direction = (pTransform.position - ghost.transform.position).normalized * Time.deltaTime * speed;
         transform.position += direction;
         turnLeft(direction.x < 0);
+        //MG aim
+        gunTransform.forward = direction;
     }
 
     IEnumerator shootAtPlayerCycle()
@@ -62,7 +65,6 @@ public class GhostScript : MonoBehaviour
                 shot = manager.getShot(false);
                 shot.transform.position = transform.position + 0.2f * shootDirection.normalized;
                 shot.transform.up = shootDirection;
-                Debug.Log("enemy shot!");
             }
         }
     }
@@ -79,7 +81,6 @@ public class GhostScript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("enemy hit!");
         if (collision.tag == "Shot")
         {
             takeHit(1);

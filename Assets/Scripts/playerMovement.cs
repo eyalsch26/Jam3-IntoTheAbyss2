@@ -10,6 +10,7 @@ public class playerMovement : MonoBehaviour
     
 
     public GameController manager;
+    public PlayerStats stats;
     public float moveForce;
     public float jumpForce;
     public Vector3 mousePos;
@@ -39,6 +40,7 @@ public class playerMovement : MonoBehaviour
     public float maxRopeLength;
     List<GameObject> currRope = new List<GameObject>();
     private bool isRoping = false;
+    private bool isExtraPulling = false;
     LineRenderer ropeLine;
     Vector3 ropeEnd;
 
@@ -54,6 +56,7 @@ public class playerMovement : MonoBehaviour
     {
         mainCamera = Camera.main;
         body = GetComponent<Rigidbody2D>();
+        stats = GetComponent<PlayerStats>();
         rig = transform.Find("PlayerRig").gameObject;
         animate = rig.GetComponent<PlayerAnimationManager>();
         currMode = 'r';
@@ -102,7 +105,7 @@ public class playerMovement : MonoBehaviour
         if (shieldOn)
         {
             //maintainShield();
-            shield.transform.Rotate(0, 0, 20 * Time.deltaTime);
+            shield.transform.Rotate(0, 0, 40 * Time.deltaTime);
         }
     }
 
@@ -142,6 +145,10 @@ public class playerMovement : MonoBehaviour
 
     public void shoot()
     {
+        if (!stats.tryUsePower(currMode))
+        {
+            return;
+        }
         if (currMode == 'r')  // casting new rope
         {
             deleteRope();
@@ -178,17 +185,32 @@ public class playerMovement : MonoBehaviour
     {
         shield.SetActive(true);
         shieldOn = true;
+        StartCoroutine(shieldPowerUse());
+
+        IEnumerator shieldPowerUse()
+        {
+            while (shieldOn)
+            {
+                yield return new WaitForSeconds(1f);
+                if (!stats.tryUsePower('s'))
+                {
+                    shieldOn = false;
+                    shield.SetActive(false);
+                }
+            }
+        }
+
     }
 
-    private void maintainShield()
-    {
-        Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
-        float distance = transform.position.z - mainCamera.transform.position.z;
-        Vector3 pos = ray.GetPoint(distance);
-        Vector3 shieldDir = (pos - transform.position).normalized;
-        shield.transform.position = transform.position + shieldDir * 1.5f;
-        shield.transform.up = shieldDir;
-    }
+    //private void maintainShield()
+    //{
+    //    Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
+    //    float distance = transform.position.z - mainCamera.transform.position.z;
+    //    Vector3 pos = ray.GetPoint(distance);
+    //    Vector3 shieldDir = (pos - transform.position).normalized;
+    //    shield.transform.position = transform.position + shieldDir * 1.5f;
+    //    shield.transform.up = shieldDir;
+    //}
 
 
 
@@ -206,13 +228,13 @@ public class playerMovement : MonoBehaviour
         {
             Time.timeScale = 0.15f;
             Time.fixedDeltaTime *= Time.timeScale;
-            manager.sloMoStart();
+            stats.sloMoStart();
         }
         else
         {
             Time.timeScale = 1f;
             Time.fixedDeltaTime = 0.02f;
-            manager.sloMoEnd();
+            stats.sloMoEnd();
         }
     }
 
@@ -245,7 +267,7 @@ public class playerMovement : MonoBehaviour
         if (invincible || shieldOn) return;
         StartCoroutine(tempInvincibility(2));
         animate.takeHit();
-        manager.loseHeart();
+        stats.healthDown();
 
         IEnumerator tempInvincibility(float time)
         {
@@ -258,7 +280,7 @@ public class playerMovement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "EnemyShot" || collision.tag == "Laser")
+        if (collision.tag == "EnemyShot" || collision.tag == "Laser" || collision.tag == "Ghost")
         {
             takeHit();
         }
@@ -286,13 +308,25 @@ public class playerMovement : MonoBehaviour
 
         else if (collision.collider.tag == "Rope")
         {
-            if (currRope.Count > 0)
+            if (currRope.Count > 0 && !isExtraPulling)
             {
-                Vector3 boost = (currRope[0].transform.position - currRope[currRope.Count - 1].transform.position);
-                boost = new Vector3(boost.x, boost.y, 0).normalized;
-                boost = (boost.x >= 0) ? Quaternion.Euler(0, 0, -90) * boost : Quaternion.Euler(0, 0, 90) * boost;
-                boost *= 200;
-                body.AddForce(boost);
+                //isExtraPulling = true;
+                //Vector3 boost = (currRope[0].transform.position - currRope[currRope.Count - 1].transform.position);
+                //boost = new Vector3(boost.x, boost.y, 0).normalized;
+                //boost = (boost.x >= 0) ? Quaternion.Euler(0, 0, -90) * boost : Quaternion.Euler(0, 0, 90) * boost;
+                //boost *= 200;
+                //Debug.Log(boost);
+                //body.AddForce(boost, ForceMode2D.Impulse);
+
+                isExtraPulling = true;
+                Vector2 ropeLine = (Vector2)(currRope[0].transform.position - currRope[currRope.Count - 1].transform.position);
+                Vector2 boost = Vector2.Perpendicular(ropeLine).normalized;
+                Vector2 playerDirection = (Vector2) (transform.position - collision.collider.transform.position);
+                if (Vector2.Dot(boost, playerDirection) > 0)
+                {
+                    boost *= -1;
+                }
+                body.AddForce(20 * boost, ForceMode2D.Impulse);
             }
         }
     }
@@ -315,12 +349,13 @@ public class playerMovement : MonoBehaviour
         if (collision.collider.tag == "Rope")
         {
             StartCoroutine(waitForRopeRemove(collision.collider.transform.position));
+            isExtraPulling = false;
         }
     }
 
     GameObject ropeLinkHandler(Vector3 pos)
     {
-        GameObject newLink = manager.getLink();
+        GameObject newLink = manager.getLink(true);
         newLink.transform.position = pos;
         newLink.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
         newLink.GetComponent<Collider2D>().enabled = false;
@@ -363,7 +398,7 @@ public class playerMovement : MonoBehaviour
         int i = 1;
         while ((pos1 - pos2).magnitude >= (pos1 - newPos).magnitude)
         {
-            currRope.Add(manager.getLink());
+            currRope.Add(manager.getLink(false));
             currRope[i].transform.position = newPos;
             currRope[i].GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
             currRope[i - 1].GetComponent<SpringJoint2D>().connectedBody = currRope[i].GetComponent<Rigidbody2D>();
