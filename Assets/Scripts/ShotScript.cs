@@ -10,10 +10,10 @@ public class ShotScript : MonoBehaviour
     private float currShotSpeed;
     public GameObject pShot;
     public GameObject eShot;
-
     public float lifeTime;
     private float currLifeTime;
-
+    public static HashSet<string> nonBlockingObjectTags = new HashSet<string> { 
+    "Laser", "Rope", "Shot", "EnemyShot"};
 
     // Start is called before the first frame update
     void Start()
@@ -45,13 +45,16 @@ public class ShotScript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Shot" ||
-            collision.tag == "EnemyShot" || 
-            collision.tag == "Player" && playerShot)
+        if (nonBlockingObjectTags.Contains(collision.tag))
         {
             return;
         }
-        gameObject.SetActive(false);
+        else if ((collision.tag == "Ghost" && !playerShot) || 
+            (collision.tag == "Player" && playerShot))
+        {
+            return;
+        }
+            gameObject.SetActive(false);
     }
 
 }

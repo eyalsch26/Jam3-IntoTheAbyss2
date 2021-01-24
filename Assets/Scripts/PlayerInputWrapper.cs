@@ -8,15 +8,18 @@ public class PlayerInputWrapper : MonoBehaviour
 {
     playerMovement controller;
     public PlayerAnimationManager animate;
-    char ROPE_MODE = 'r';
-    char FIRE_MODE = 'f';
-    char SHIELD_MODE= 's';
+    static char ROPE_MODE = 'r';
+    static char FIRE_MODE = 'f';
+    static char SHIELD_MODE= 's';
+    static List<char> modeList = new List<char> { ROPE_MODE, FIRE_MODE, SHIELD_MODE };
+    int modeIdx;
 
     float walkInput = 0;
     // Start is called before the first frame update
     void Start()
     {
         controller = GetComponent<playerMovement>();
+        modeIdx = 0;
     }
 
     // Update is called once per frame
@@ -82,17 +85,11 @@ public class PlayerInputWrapper : MonoBehaviour
     public void iChangeMode(InputAction.CallbackContext context)
     {
         Vector2 mode = context.ReadValue<Vector2>();
-        if (mode.x == -1)
+        if (context.phase == InputActionPhase.Started)
         {
-            controller.changeMode(ROPE_MODE);
-        }
-        else if (mode.y == -1)
-        {
-            controller.changeMode(FIRE_MODE);
-        }
-        else if (mode.x == 1)
-        {
-            controller.changeMode(SHIELD_MODE);
+            modeIdx = (mode.y > 0) ? modeIdx + 1 : modeIdx - 1;
+            modeIdx = (modeIdx + 3) % 3;
+            controller.changeMode(modeList[modeIdx]);
         }
     }
 

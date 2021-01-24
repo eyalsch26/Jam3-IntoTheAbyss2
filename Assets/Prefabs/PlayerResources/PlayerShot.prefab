@@ -5205,7 +5205,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerShot: 0
   playerShotSpeed: 5
-  enemyShotSpeed: 1
+  enemyShotSpeed: 2
   pShot: {fileID: 2879574774435798916}
   eShot: {fileID: 972217312249111970}
   lifeTime: 4
