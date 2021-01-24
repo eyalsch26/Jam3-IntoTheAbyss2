@@ -18,12 +18,17 @@ public class PitScript : MonoBehaviour
     private int roomsNum = 3;
     private float distanceToNextRoom = 31.24f;
     private float maxDistanceFromRoom= 7.81f;
-    private float pitPositionY;
     private float xPos = 0f;
     private float zPos = 0f;
 
+    // Variables.
+    private float pitPositionY;
+    private int roomIndex;
+    private bool atLastRoom;
+    
     // Data sturctures.
-    public GameObject[] publicRooms;
+    private GameObject firstRoom;
+    private GameObject lastRoom;
     private GameObject[,] rooms; // Room == two pits. Levels x Rooms.
     private int[] activeRooms; // Levels x Rooms. The j'th room in the i'th difficulty is active == activeRooms[i] == j. Otherwise -1.
 
@@ -33,11 +38,13 @@ public class PitScript : MonoBehaviour
 
         pitWidth = 6.03f; // Was 6.9f. 6.03 == 18 grid units.
         pitHeight = 15.41f; // Was 15.62f. 15.41 == 46 grid units.
-        pitPositionY = 0;
+        pitPositionY = 0f;
     }
 
     private void Start()
     {
+        roomIndex = 0;
+        atLastRoom = false;
         rooms = new GameObject[levelsNum, roomsNum];
         activeRooms = new int[levelsNum];
 
@@ -53,15 +60,18 @@ public class PitScript : MonoBehaviour
             activeRooms[l] = -1; // Setting the rooms to not active.
         }
         // Positioning the first room.
-        GameObject firstRoom = rooms[0, 0];
+        firstRoom = Instantiate(Resources.Load("FirstRoom")) as GameObject; ;
         firstRoom.transform.position = new Vector3(xPos, pitPositionY, zPos);
         firstRoom.SetActive(true);
+        lastRoom = Instantiate(Resources.Load("LastRoom")) as GameObject; ;
+        lastRoom.SetActive(false);
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(pitPositionY - cam.position.y > maxDistanceFromRoom)
+        if(pitPositionY - cam.position.y > maxDistanceFromRoom && !atLastRoom)
         {
             pitPositionY -= distanceToNextRoom;
             PositionBackgrounds();
@@ -83,17 +93,29 @@ public class PitScript : MonoBehaviour
                 }
             }
         }
-        // Choosing a level and a room to reposition.
-        int levelIdx = Random.Range(0, levelsNum - 1);
-        int roomIdx = Random.Range(0, roomsNum - 1);
-        while(activeRooms[levelIdx] == roomIdx)
-        {
-            roomIdx = Random.Range(0, roomsNum - 1);
-        }
-        activeRooms[levelIdx] = roomIdx;
+        //// Choosing a level and a room to reposition.
+        //int levelIdx = Random.Range(0, levelsNum - 1);
+        //int roomIdx = Random.Range(0, roomsNum - 1);
+        //while(activeRooms[levelIdx] == roomIdx)
+        //{
+        //    roomIdx = Random.Range(0, roomsNum - 1);
+        //}
+        int roomIdx = roomIndex % roomsNum;
+        int levelIndex = roomIndex / levelsNum;
+        activeRooms[levelIndex] = roomIdx;
         // Positioning the chosen room.
-        GameObject room = rooms[levelIdx, roomIdx];
-        room.transform.position = new Vector3(xPos, pitPositionY, zPos);
-        room.SetActive(true);
+        if(roomIndex < levelsNum * roomsNum)
+        {
+            GameObject room = rooms[levelIndex, roomIdx];
+            room.transform.position = new Vector3(xPos, pitPositionY, zPos);
+            room.SetActive(true);
+        }
+        else
+        {
+            lastRoom.transform.position = new Vector3(xPos, pitPositionY, zPos);
+            lastRoom.SetActive(true);
+            atLastRoom = true;
+        }
+        roomIndex++;
     }
 }
