@@ -276,16 +276,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a029e7b2656ee043821ea860b4d6141, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  publicRooms:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!1 &643574015
 GameObject:
   m_ObjectHideFlags: 0
@@ -5348,6 +5338,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 683963118, guid: a9efb0cf6065bab40b3d0bfb6d94ec83, type: 3}
+      propertyPath: m_Color.a
+      value: 0.5882353
+      objectReference: {fileID: 0}
+    - target: {fileID: 683963118, guid: a9efb0cf6065bab40b3d0bfb6d94ec83, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 683963118, guid: a9efb0cf6065bab40b3d0bfb6d94ec83, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 683963118, guid: a9efb0cf6065bab40b3d0bfb6d94ec83, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 152162015777365236, guid: a9efb0cf6065bab40b3d0bfb6d94ec83, type: 3}
       propertyPath: m_Name
       value: Player

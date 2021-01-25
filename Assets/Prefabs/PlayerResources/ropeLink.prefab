@@ -273,7 +273,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: facb0523c5df96045a3555caee87539d, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: c873731de6a225b4d82da556772ec434, type: 2}
+      objectReference: {fileID: 2100000, guid: 09abf330dd245e948a3e2d052614a9b4, type: 2}
     - target: {fileID: 919132149155446097, guid: facb0523c5df96045a3555caee87539d, type: 3}
       propertyPath: m_Name
       value: midLink
