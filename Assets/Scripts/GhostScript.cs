@@ -7,6 +7,7 @@ public class GhostScript : MonoBehaviour
     public int health;
     public float speed;
     public GameObject ghost;
+    public GameObject iodineReward;
     GameController manager;
     public float shootDistance;
     public float avgShotTimeGap;
@@ -60,7 +61,7 @@ public class GhostScript : MonoBehaviour
             float t = Random.Range(-1, 1);
             yield return new WaitForSeconds(avgShotTimeGap + t);
             Vector3 shootDirection = pTransform.position - ghost.transform.position;
-            if ((ghost.transform.position - pTransform.position).magnitude < shootDistance)
+            if (alive && (ghost.transform.position - pTransform.position).magnitude < shootDistance)
             {
                 shot = manager.getShot(false);
                 shot.transform.position = transform.position + 0.2f * shootDirection.normalized;
@@ -75,8 +76,23 @@ public class GhostScript : MonoBehaviour
         if (health <= 0)
         {
             alive = false;
-            gameObject.SetActive(false);
+            ghostKilled();
         }    
+    }
+
+    void ghostKilled()
+    {
+        ghost.SetActive(false);
+        iodineReward.SetActive(true);
+        GetComponent<Collider2D>().enabled = false;
+        this.enabled = false;
+        //StartCoroutine(rewardContdown());
+
+        //IEnumerator rewardContdown()
+        //{
+        //    yield return new WaitForSecondsRealtime(10f);
+        //    gameObject.SetActive(false);
+        //}
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
