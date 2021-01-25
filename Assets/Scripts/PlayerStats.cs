@@ -147,4 +147,13 @@ public class PlayerStats : MonoBehaviour
         return true;
     }
 
+    public void IodineOn()
+    {
+        IodineIcon.sprite = elements[10];
+    }
+    public void IodineOff()
+    {
+        IodineIcon.sprite = elements[11];
+    }
+
 }

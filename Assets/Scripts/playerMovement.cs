@@ -228,6 +228,8 @@ public class playerMovement : MonoBehaviour
     {
         if (toStart)
         {
+            if (!stats.setIodine(-1))
+            { return; }
             Time.timeScale = 0.15f;
             Time.fixedDeltaTime *= Time.timeScale;
             isSlowingTime = true;
