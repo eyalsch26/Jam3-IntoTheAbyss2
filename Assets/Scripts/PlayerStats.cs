@@ -22,6 +22,10 @@ public class PlayerStats : MonoBehaviour
     public List<Image> hearts;
     public List<Image> powerBar;
     public TextMeshProUGUI iodineAmount;
+    public Image IodineIcon;
+    public Image ropeIcon;
+    public Image gunIcon;
+    public Image shieldIcon;
     public List<Sprite> elements;
     //0- heartOn;
     //1-heartOff;
@@ -56,7 +60,6 @@ public class PlayerStats : MonoBehaviour
         {
             powerBar[i].sprite = elements[3]; // off parts
         }
-        iodineAmount.text = discretePower.ToString();
     }
 
         public void healthDown()
@@ -112,13 +115,36 @@ public class PlayerStats : MonoBehaviour
         }    
     }
 
-    public void sloMoStart()
+    
+    public void setMode(char mode)
     {
-
+        switch (mode)
+        {
+            case 'r':
+                ropeIcon.enabled = true;
+                gunIcon.enabled = false;
+                shieldIcon.enabled = false;
+                break;
+            case 'f':
+                ropeIcon.enabled = false;
+                gunIcon.enabled = true;
+                shieldIcon.enabled = false;
+                break;
+            case 's':
+                ropeIcon.enabled = false;
+                gunIcon.enabled = false;
+                shieldIcon.enabled = true;
+                break;
+        }
     }
 
-    public void sloMoEnd()
+    public bool setIodine(int amount)
     {
-
+        if (iodine + amount < 0)
+        { return false; }
+        iodine += amount;
+        iodineAmount.text = iodine.ToString();
+        return true;
     }
+
 }

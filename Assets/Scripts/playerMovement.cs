@@ -44,6 +44,8 @@ public class playerMovement : MonoBehaviour
     LineRenderer ropeLine;
     Vector3 ropeEnd;
 
+    // iodine vars:
+    bool isSlowingTime = false;
 
     // mode variables:
     private char currMode;
@@ -112,7 +114,7 @@ public class playerMovement : MonoBehaviour
 
     public void move(char dir)
     {
-        float midAirFactor = (isOnGround) ? 1 : 0.2f;
+        float midAirFactor = (isOnGround) ? 1 : 0.5f;
         if (dir == 'l')
         {
             body.AddForce(Vector3.left * moveForce * midAirFactor, ForceMode2D.Impulse);
@@ -228,13 +230,28 @@ public class playerMovement : MonoBehaviour
         {
             Time.timeScale = 0.15f;
             Time.fixedDeltaTime *= Time.timeScale;
-            stats.sloMoStart();
+            isSlowingTime = true;
+            StartCoroutine(useIodine());
+            //stats.sloMoStart();
         }
         else
         {
+            isSlowingTime = false;
             Time.timeScale = 1f;
             Time.fixedDeltaTime = 0.02f;
-            stats.sloMoEnd();
+            //stats.sloMoEnd();
+        }
+
+        IEnumerator useIodine()
+        {
+            while (isSlowingTime)
+            {
+                yield return new WaitForSecondsRealtime(1f);
+                if (!stats.setIodine(-1))
+                {
+                    slowTime(false);
+                }
+            }
         }
     }
 
@@ -255,10 +272,16 @@ public class playerMovement : MonoBehaviour
         }
         currMode = mode;
         rig.transform.Find("PlayerMesh").gameObject.GetComponent<SkinnedMeshRenderer>().material = modeSuit;
-        if (shieldOn && mode != 'r')
+        stats.setMode(mode);
+        if (shieldOn && mode != 's')
         {
             shieldOn = false;
             shield.SetActive(false);    
+        }
+        if (isRoping && mode != 'r')
+        {
+            isRoping = false;
+            generateRope(ropeEnd);
         }
     }
 
@@ -278,11 +301,28 @@ public class playerMovement : MonoBehaviour
             
     }
 
+
+    void hazardKickBack(Vector2 touchPoint)
+    {
+        Vector2 kickBack = (body.position - touchPoint).normalized * jumpForce;
+        body.AddForce(kickBack, ForceMode2D.Impulse);
+    }
+
+
+    void takeIodine()
+    {
+        stats.setIodine(3);
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "EnemyShot" || collision.tag == "Laser" || collision.tag == "Ghost")
         {
             takeHit();
+        }
+        if (collision.tag == "Iodine")
+        {
+            takeIodine();
         }
     }
 
@@ -330,13 +370,6 @@ public class playerMovement : MonoBehaviour
             }
         }
     }
-
-    void hazardKickBack(Vector2 touchPoint)
-    {
-        Vector2 kickBack = (body.position - touchPoint).normalized * jumpForce;
-        body.AddForce(kickBack, ForceMode2D.Impulse);
-    }
-
 
     private void OnCollisionExit2D(Collision2D collision)
     {

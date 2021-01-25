@@ -5,6 +5,8 @@ using UnityEngine;
 public class PillScript : MonoBehaviour
 {
     private float angularSpeed;
+    public GameObject pillBody;
+    public GameObject sparks;
     
     // Start is called before the first frame update
     void Start()
@@ -22,7 +24,15 @@ public class PillScript : MonoBehaviour
     {
         if(collision.tag == "Player")
         {
-            gameObject.SetActive(false);
+            StartCoroutine(flashDissapear());
         }
     }
+
+    IEnumerator flashDissapear()
+    {
+        pillBody.SetActive(false);
+        sparks.SetActive(true);
+        yield return new WaitForSecondsRealtime(0.5f);
+        gameObject.SetActive(false);
+    }    
 }
