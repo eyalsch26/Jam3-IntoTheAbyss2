@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2488164643303744705}
   - component: {fileID: 2488164643303744708}
   - component: {fileID: 2488164643303744711}
-  - component: {fileID: 1630587738457499490}
+  - component: {fileID: 4062302500710774294}
   m_Layer: 0
   m_Name: ropeLink
   m_TagString: Rope
@@ -76,8 +76,8 @@ SpringJoint2D:
   m_Distance: 0.02
   m_DampingRatio: 0.2
   m_Frequency: 11
---- !u!60 &1630587738457499490
-PolygonCollider2D:
+--- !u!70 &4062302500710774294
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -89,26 +89,9 @@ PolygonCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.4, y: 0.56}
-    newSize: {x: 0.4, y: 0.56}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.23221079, y: 0.24307837}
-      - {x: 0.089999996, y: 0.28}
-      - {x: -0.09774264, y: 0.28}
-      - {x: -0.23893477, y: 0.24854745}
-      - {x: -0.45731038, y: 0.22967854}
-      - {x: -0.06, y: -0.28}
-      - {x: 0.01, y: -0.28}
-      - {x: 0.46003732, y: 0.21623382}
+  m_Offset: {x: 0.0044792066, y: -0.0014931384}
+  m_Size: {x: 0.81785643, y: 0.59689695}
+  m_Direction: 1
 --- !u!1001 &3649657692765802836
 PrefabInstance:
   m_ObjectHideFlags: 0
