@@ -153,6 +153,10 @@ public class playerMovement : MonoBehaviour
         }
         if (currMode == 'r')  // casting new rope
         {
+            if (isRoping)
+            {
+                return;
+            }
             deleteRope();
             currRope.Add(ropeLinkHandler(mousePos));
             ropeLine.enabled = true;
