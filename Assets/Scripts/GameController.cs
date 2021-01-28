@@ -8,6 +8,7 @@ public class GameController : MonoBehaviour
 {
     Camera mainCamera;
     GameObject player;
+    public static Transform playerTransform;
 
     // Link Object Pooling:
     public GameObject linkPrefab;
@@ -60,6 +61,9 @@ public class GameController : MonoBehaviour
             pill.SetActive(false);
             pills[i] = pill;
         }
+
+        player = GameObject.Find("Player");
+        playerTransform = player.transform;
     }
 
     public GameObject getLink(bool isStart)

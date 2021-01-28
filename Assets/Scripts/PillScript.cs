@@ -5,6 +5,8 @@ using UnityEngine;
 public class PillScript : MonoBehaviour
 {
     private float angularSpeed;
+    private float pullingRadius = 1.25f;
+    private float playerGravity = 1.5f;
     public GameObject pillBody;
     public GameObject sparks;
     
@@ -18,6 +20,7 @@ public class PillScript : MonoBehaviour
     void Update()
     {
         gameObject.transform.eulerAngles += new Vector3(0, angularSpeed * Time.deltaTime, 0);
+        PullToPlayer();
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
@@ -36,5 +39,15 @@ public class PillScript : MonoBehaviour
         gameObject.SetActive(false);
         pillBody.SetActive(true);
         sparks.SetActive(false);
-    }    
+    }
+
+    private void PullToPlayer()
+    {
+        Vector3 difference = GameController.playerTransform.position - gameObject.transform.position;
+        float distance = difference.magnitude;
+        if(distance < pullingRadius)
+        {
+            gameObject.transform.position = gameObject.transform.position + difference.normalized * playerGravity * (pullingRadius - distance) * Time.deltaTime;
+        }
+    }
 }
