@@ -27,6 +27,7 @@ public class PlayerStats : MonoBehaviour
     public Image ropeIcon;
     public Image gunIcon;
     public Image shieldIcon;
+    public Image countDownHUAnimation;
     public List<Sprite> elements;
     //0- heartOn;
     //1-heartOff;
@@ -47,6 +48,8 @@ public class PlayerStats : MonoBehaviour
         health = maxHealth;
         power = maxPower;
         StartCoroutine(chargePower(powerChargePerSec));
+        StartCoroutine(iodineCountDown(1f));
+        StartCoroutine(countDownHeadsUp());
     }
 
     void Update()
@@ -60,6 +63,10 @@ public class PlayerStats : MonoBehaviour
         for (int i = discretePower; i < maxPower; i++)
         {
             powerBar[i].sprite = elements[3]; // off parts
+        }
+        if (iodine <= 0)
+        {
+            manager.gameOver();
         }
     }
 
@@ -116,7 +123,38 @@ public class PlayerStats : MonoBehaviour
         }    
     }
 
-    
+    IEnumerator iodineCountDown(float dropRate)
+    {
+        yield return new WaitForSeconds(2f);
+        while (iodine > 0)
+        {
+            yield return new WaitForSecondsRealtime(dropRate);
+            setIodine(-1);
+        }
+    }
+
+    IEnumerator countDownHeadsUp()
+    {
+        yield return new WaitForSeconds(2f);
+        countDownHUAnimation.enabled = true;
+        for (int i = 0; i < 3; i++)
+        {
+            float t = 0;
+            float width;
+            while (t < 0.9)
+            {
+                width = Mathf.Floor(t * t * (10f / 9f) * 91);
+                countDownHUAnimation.rectTransform.sizeDelta = new Vector2(width, 3);
+                t += Time.deltaTime;
+                yield return new WaitForEndOfFrame();
+                
+
+            }
+            yield return new WaitForSeconds(0.1f);
+        }
+        countDownHUAnimation.enabled = false;
+    }
+
     public void setMode(char mode)
     {
         switch (mode)

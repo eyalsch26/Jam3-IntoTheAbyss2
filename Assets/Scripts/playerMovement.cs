@@ -45,7 +45,7 @@ public class playerMovement : MonoBehaviour
     Vector3 ropeEnd;
 
     // iodine vars:
-    bool isSlowingTime = false;
+    public bool isSlowingTime = false;
 
     // mode variables:
     private char currMode;
@@ -114,7 +114,7 @@ public class playerMovement : MonoBehaviour
 
     public void move(char dir)
     {
-        float midAirFactor = (isOnGround) ? 1 : 0.5f;
+        float midAirFactor = (isOnGround) ? 1 : 0.3f;
         if (dir == 'l')
         {
             body.AddForce(Vector3.left * moveForce * midAirFactor, ForceMode2D.Impulse);
@@ -206,6 +206,7 @@ public class playerMovement : MonoBehaviour
         }
 
     }
+
 
     //private void maintainShield()
     //{

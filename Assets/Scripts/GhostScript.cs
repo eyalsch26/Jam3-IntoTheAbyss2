@@ -7,7 +7,7 @@ public class GhostScript : MonoBehaviour
     public int health;
     public float speed;
     public GameObject ghost;
-    public GameObject iodineReward;
+    public GameObject puff;
     GameController manager;
     public float shootDistance;
     public float avgShotTimeGap;
@@ -76,23 +76,26 @@ public class GhostScript : MonoBehaviour
         if (health <= 0)
         {
             alive = false;
-            ghostKilled();
+            StartCoroutine(ghostKilled());
         }    
     }
 
-    void ghostKilled()
+    //void ghostKilled()
+    //{
+    //    ghost.SetActive(false);
+    //    iodineReward.SetActive(true);
+    //    GetComponent<Collider2D>().enabled = false;
+    //    this.enabled = false;
+    //}
+
+    IEnumerator ghostKilled()
     {
         ghost.SetActive(false);
-        iodineReward.SetActive(true);
+        puff.SetActive(true);
         GetComponent<Collider2D>().enabled = false;
-        this.enabled = false;
-        //StartCoroutine(rewardContdown());
-
-        //IEnumerator rewardContdown()
-        //{
-        //    yield return new WaitForSecondsRealtime(10f);
-        //    gameObject.SetActive(false);
-        //}
+        manager.PositionPills(ghost.transform.position.x, ghost.transform.position.y, 3);
+        yield return new WaitForSeconds(1.5f);
+        gameObject.SetActive(false);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

@@ -34,5 +34,7 @@ public class PillScript : MonoBehaviour
         sparks.SetActive(true);
         yield return new WaitForSecondsRealtime(0.5f);
         gameObject.SetActive(false);
+        pillBody.SetActive(true);
+        sparks.SetActive(false);
     }    
 }
