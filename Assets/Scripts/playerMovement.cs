@@ -2,39 +2,39 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
-using UnityEngine.Animations.Rigging;
 
 public class playerMovement : MonoBehaviour
 {
-    
-
+    // general:
     public GameController manager;
     public PlayerStats stats;
+    Rigidbody2D body;
+    private GameObject rig;
+    private PlayerAnimationManager animate;
+
+    // player properties;
     public float moveForce;
     public float jumpForce;
     public Vector3 mousePos;
-    // space needed b.w. rope links:
-    public float linkSpace;
-    // distance b.w. player and rope to which the rope is then deleted:
-    public float ropeDeleteDistance;
-    // detects if player is standing on ground == can jump;
-    public float maxVerticalSpeed; // Units per second.
+    public float linkSpace; // space needed b.w. rope links
+    public float ropeDeleteDistance; // distance b.w. player and rope to which the rope is then deleted
+    public float maxVerticalSpeed;
     bool isOnGround = false;
-    public float distToGround;
+    public float distToGround; // approx distance from player pos. to bottom collider edge.
     bool invincible = false;
-    Rigidbody2D body;
 
     // camera:
     private Camera mainCamera;
     float prevY = 0;
-    private GameObject rig;
-    private PlayerAnimationManager animate;
-    //public MultiAimConstraint headAim;
+    Plane mouseProjPlane;
+    float mouseRayDistance;
 
     // shield vars:
     private GameObject shield;
     public bool shieldOn = false;
+
+    // firing (gun) vars:
+    public Transform gunEdgeTransform;
 
     // rope vars:
     public float maxRopeLength;
@@ -57,6 +57,7 @@ public class playerMovement : MonoBehaviour
     void Start()
     {
         mainCamera = Camera.main;
+        mouseProjPlane = new Plane(Vector3.back, transform.position);
         body = GetComponent<Rigidbody2D>();
         stats = GetComponent<PlayerStats>();
         rig = transform.Find("PlayerRig").gameObject;
@@ -82,12 +83,11 @@ public class playerMovement : MonoBehaviour
     {
         // maintain cursor position
         Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
-        float distance = transform.position.z - mainCamera.transform.position.z;
-        mousePos = ray.GetPoint(distance);
-        mousePos = new Vector3(mousePos.x, mousePos.y, 4);
+        mouseProjPlane.Raycast(ray, out mouseRayDistance);
+        mousePos = ray.GetPoint(mouseRayDistance);
 
         // fall speed limit:
-        if (body.velocity.y < -maxVerticalSpeed)
+        if (!isExtraPulling && body.velocity.y < -maxVerticalSpeed)
         {
             body.velocity = new Vector2(body.velocity.x, -maxVerticalSpeed);
         }
@@ -159,7 +159,6 @@ public class playerMovement : MonoBehaviour
             }
             deleteRope();
             currRope.Add(ropeLinkHandler(mousePos));
-            ropeLine.enabled = true;
             isRoping = true;
         }
         else if (currMode == 'f')
@@ -197,7 +196,7 @@ public class playerMovement : MonoBehaviour
         {
             while (shieldOn)
             {
-                yield return new WaitForSeconds(1f);
+                yield return new WaitForSeconds(0.3f);
                 if (!stats.tryUsePower('s'))
                 {
                     shieldOn = false;
@@ -222,9 +221,9 @@ public class playerMovement : MonoBehaviour
 
     private void fireShot(Vector3 pos)
     {
-        Vector3 shotDirection = (pos - transform.position).normalized;
+        Vector3 shotDirection = (pos - gunEdgeTransform.position).normalized;
         GameObject shot = manager.getShot(true);
-        shot.transform.position = transform.position + 0.1f * shotDirection;
+        shot.transform.position = gunEdgeTransform.position;
         shot.transform.up = shotDirection;
     }
 
@@ -234,18 +233,18 @@ public class playerMovement : MonoBehaviour
         {
             if (!stats.setIodine(-1))
             { return; }
+            stats.IodineOn();
             Time.timeScale = 0.15f;
             Time.fixedDeltaTime *= Time.timeScale;
             isSlowingTime = true;
             StartCoroutine(useIodine());
-            //stats.sloMoStart();
         }
         else
         {
+            stats.IodineOff();
             isSlowingTime = false;
             Time.timeScale = 1f;
             Time.fixedDeltaTime = 0.02f;
-            //stats.sloMoEnd();
         }
 
         IEnumerator useIodine()
@@ -310,7 +309,7 @@ public class playerMovement : MonoBehaviour
 
     void hazardKickBack(Vector2 touchPoint)
     {
-        Vector2 kickBack = (body.position - touchPoint).normalized * jumpForce;
+        Vector2 kickBack = (body.position - touchPoint).normalized * jumpForce * 0.2f;
         body.AddForce(kickBack, ForceMode2D.Impulse);
     }
 
@@ -356,23 +355,7 @@ public class playerMovement : MonoBehaviour
         {
             if (currRope.Count > 0 && !isExtraPulling)
             {
-                //isExtraPulling = true;
-                //Vector3 boost = (currRope[0].transform.position - currRope[currRope.Count - 1].transform.position);
-                //boost = new Vector3(boost.x, boost.y, 0).normalized;
-                //boost = (boost.x >= 0) ? Quaternion.Euler(0, 0, -90) * boost : Quaternion.Euler(0, 0, 90) * boost;
-                //boost *= 200;
-                //Debug.Log(boost);
-                //body.AddForce(boost, ForceMode2D.Impulse);
-
                 isExtraPulling = true;
-                Vector2 ropeLine = (Vector2)(currRope[0].transform.position - currRope[currRope.Count - 1].transform.position);
-                Vector2 boost = Vector2.Perpendicular(ropeLine).normalized;
-                Vector2 playerDirection = (Vector2) (transform.position - collision.collider.transform.position);
-                if (Vector2.Dot(boost, playerDirection) > 0)
-                {
-                    boost *= -1;
-                }
-                body.AddForce(20 * boost, ForceMode2D.Impulse);
             }
         }
     }
@@ -388,6 +371,9 @@ public class playerMovement : MonoBehaviour
         if (collision.collider.tag == "Rope")
         {
             StartCoroutine(waitForRopeRemove(collision.collider.transform.position));
+            Vector2 dir = body.velocity.normalized * Mathf.Max(0.3f, Mathf.Sqrt(body.velocity.magnitude));
+
+            body.AddForce(0.6f * body.velocity, ForceMode2D.Impulse);
             isExtraPulling = false;
         }
     }
@@ -418,6 +404,10 @@ public class playerMovement : MonoBehaviour
             ropeEnd = pos1 + (mousePos - pos1).normalized * maxRopeLength;
         }
         ropeLine.SetPosition(1, ropeEnd);
+        if (!ropeLine.enabled)
+        {
+            ropeLine.enabled = true;
+        }
     }
 
     void generateRope(Vector3 endPos)
@@ -439,6 +429,7 @@ public class playerMovement : MonoBehaviour
         {
             currRope.Add(manager.getLink(false));
             currRope[i].transform.position = newPos;
+            currRope[i].transform.up = Vector2.Perpendicular(pos1 - pos2);
             currRope[i].GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
             currRope[i - 1].GetComponent<SpringJoint2D>().connectedBody = currRope[i].GetComponent<Rigidbody2D>();
             newPos += linkGap;

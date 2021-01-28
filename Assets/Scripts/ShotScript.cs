@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ShotScript : MonoBehaviour
 {
+    
     public bool playerShot;
     public float playerShotSpeed;
     public float enemyShotSpeed;
@@ -13,7 +14,7 @@ public class ShotScript : MonoBehaviour
     public float lifeTime;
     private float currLifeTime;
     public static HashSet<string> nonBlockingObjectTags = new HashSet<string> { 
-    "Laser", "Rope", "Shot", "EnemyShot"};
+    "Laser", "Rope", "Shot", "EnemyShot", "Iodine"};
 
     // Start is called before the first frame update
     void Start()
@@ -24,7 +25,8 @@ public class ShotScript : MonoBehaviour
     // Update is called once per frame
     private void FixedUpdate()
     {
-        Vector3 move = transform.up * Time.deltaTime * currShotSpeed;
+        float sloMoFactor = (Time.timeScale < 1 && playerShot) ? 3 : 1;
+        Vector3 move = transform.up * Time.deltaTime * currShotSpeed * sloMoFactor;
         transform.position += move;
         currLifeTime -= Time.deltaTime;
         if (currLifeTime <= 0)

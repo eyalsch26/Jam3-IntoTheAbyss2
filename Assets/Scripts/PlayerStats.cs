@@ -6,6 +6,7 @@ using TMPro;
 
 public class PlayerStats : MonoBehaviour
 {
+    public playerMovement controller;
     public GameController manager;
     public int maxHealth;
     public float maxPower;
@@ -108,7 +109,7 @@ public class PlayerStats : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(chargeRate);
-            if (power < maxPower)
+            if (power < maxPower && !controller.shieldOn)
             {
                 power = Mathf.Min(maxPower, power + 1);
             }    

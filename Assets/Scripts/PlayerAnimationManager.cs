@@ -54,7 +54,8 @@ public class PlayerAnimationManager : MonoBehaviour
     void Update()
     {
         Vector3 pos = movementScript.mousePos;
-        aimTarget.position = new Vector3(pos.x, pos.y, -3);
+        //aimTarget.position = new Vector3(pos.x, pos.y, pos.z - 2);
+        aimTarget.position = pos;
         if (!isWalking && !animator.GetBool("jump"))
         {
             movementScript.turnLeft(pos.x < transform.position.x);
