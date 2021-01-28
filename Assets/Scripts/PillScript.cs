@@ -6,7 +6,7 @@ public class PillScript : MonoBehaviour
 {
     private float angularSpeed;
     private float pullingRadius = 1.25f;
-    private float playerGravity = 1.5f;
+    private float playerGravity = 5f;
     public GameObject pillBody;
     public GameObject sparks;
     

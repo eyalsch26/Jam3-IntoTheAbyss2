@@ -5394,6 +5394,10 @@ PrefabInstance:
       propertyPath: manager
       value: 
       objectReference: {fileID: 197451601}
+    - target: {fileID: 152162015777365247, guid: a9efb0cf6065bab40b3d0bfb6d94ec83, type: 3}
+      propertyPath: maxVerticalSpeed
+      value: 5.5
+      objectReference: {fileID: 0}
     - target: {fileID: 6503037131948682780, guid: a9efb0cf6065bab40b3d0bfb6d94ec83, type: 3}
       propertyPath: manager
       value: 
