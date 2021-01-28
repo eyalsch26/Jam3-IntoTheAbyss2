@@ -21,6 +21,10 @@ public class GameController : MonoBehaviour
     public int shotPoolNum;
     private int currShotIdx;
 
+    // Pills.
+    private int pillsNum = 50;
+    private GameObject[] pills;
+
     private void Awake()
     {
         mainCamera = Camera.main;
@@ -53,6 +57,13 @@ public class GameController : MonoBehaviour
             shotPool[i].SetActive(false);
         }
         currShotIdx = 0;
+
+        // Initializing pills.
+        pills = new GameObject[pillsNum];
+        for(int i = 0; i < pillsNum; ++i)
+        {
+            pills[i] = Instantiate(Resources.Load("Pill")) as GameObject;
+        }
 
         // Inintializing the obstacles.
         //obstaclesPool = new GameObject[5];
@@ -101,6 +112,27 @@ public class GameController : MonoBehaviour
         }
         shotScript.setUpShot(isPlayer);
         return shot;
+    }
+
+    public void PositionPills(float x, float y, int pillAmount)
+    {
+        int curPillIdx = 0;
+        for (int p = 0; p < pillsNum; ++p)
+        {
+            if(curPillIdx >= pillAmount)
+            {
+                break;
+            }
+            GameObject pill = pills[p];
+            if (!pill.activeSelf)
+            {
+                float xPos = x + 0.075f * Mathf.Cos(2f * Mathf.PI / (float)pillAmount) * curPillIdx;
+                float yPos = x + 0.075f * Mathf.Sin(2f * Mathf.PI / (float)pillAmount) * curPillIdx;
+                pill.transform.position = new Vector3(xPos, yPos, 4);
+                pill.SetActive(true);
+                curPillIdx++;
+            }
+        }
     }
 
     //private void SetObstacles()
