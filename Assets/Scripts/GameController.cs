@@ -56,7 +56,9 @@ public class GameController : MonoBehaviour
         pills = new GameObject[pillsNum];
         for(int i = 0; i < pillsNum; ++i)
         {
-            pills[i] = Instantiate(Resources.Load("Pill")) as GameObject;
+            GameObject pill = Instantiate(Resources.Load("Pill")) as GameObject;
+            pill.SetActive(false);
+            pills[i] = pill;
         }
     }
 
@@ -111,8 +113,8 @@ public class GameController : MonoBehaviour
             GameObject pill = pills[p];
             if (!pill.activeSelf)
             {
-                float xPos = x + 0.075f * Mathf.Cos(2f * Mathf.PI / (float)pillAmount) * curPillIdx;
-                float yPos = x + 0.075f * Mathf.Sin(2f * Mathf.PI / (float)pillAmount) * curPillIdx;
+                float xPos = x + 0.15f * Mathf.Cos(2f * Mathf.PI * curPillIdx / (float)pillAmount);
+                float yPos = y + 0.15f * Mathf.Sin(2f * Mathf.PI * curPillIdx / (float)pillAmount);
                 pill.transform.position = new Vector3(xPos, yPos, 4);
                 pill.SetActive(true);
                 curPillIdx++;
