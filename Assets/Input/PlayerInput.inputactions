@@ -52,13 +52,21 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "ModeWheel",
+                    "type": "Button",
+                    "id": "829386c9-aadf-4454-9aa0-ca40de3a01d2",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
                 {
                     "name": "",
                     "id": "8a1a3044-1cb7-4587-b65d-d298853fae56",
-                    "path": "<Mouse>/rightButton",
+                    "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
                     "groups": "PC player",
@@ -149,8 +157,19 @@
                     "path": "<Mouse>/scroll",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "PC player",
                     "action": "ChangeMode",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f5dfaaf6-4565-4705-919b-9e8d2a7d13aa",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PC player",
+                    "action": "ModeWheel",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

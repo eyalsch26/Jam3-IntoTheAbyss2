@@ -14,8 +14,8 @@ PlayerSettings:
   accelerometerFrequency: 60
   companyName: Team38
   productName: IntoTheAbyss
-  defaultCursor: {fileID: 2800000, guid: 4c51f5f19d96d5945a7b3c03021796a5, type: 3}
-  cursorHotspot: {x: 51, y: 58}
+  defaultCursor: {fileID: 2800000, guid: 3ed963b99d24c124f9501f4aaf295df3, type: 3}
+  cursorHotspot: {x: 14, y: 17}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
   m_ShowUnitySplashScreen: 1
   m_ShowUnitySplashLogo: 1

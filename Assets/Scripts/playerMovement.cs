@@ -156,7 +156,7 @@ public class playerMovement : MonoBehaviour
             if (isRoping)
             {
                 return;
-            }
+            }            
             deleteRope();
             currRope.Add(ropeLinkHandler(mousePos));
             isRoping = true;
@@ -422,22 +422,26 @@ public class playerMovement : MonoBehaviour
         GameObject p2 = ropeLinkHandler(endPos);
         Vector3 pos1 = p1.transform.position;
         Vector3 pos2 = p2.transform.position;
-        Vector3 linkGap = (pos2 - pos1).normalized;
-        linkGap *= linkSpace;
-        Vector3 newPos = pos1 + linkGap;
-        int i = 1;
-        while ((pos1 - pos2).magnitude >= (pos1 - newPos).magnitude)
+        if ((pos2 - pos1).magnitude > linkSpace)
         {
-            currRope.Add(manager.getLink(false));
-            currRope[i].transform.position = newPos;
-            currRope[i].transform.up = Vector2.Perpendicular(pos1 - pos2);
-            currRope[i].GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
-            currRope[i - 1].GetComponent<SpringJoint2D>().connectedBody = currRope[i].GetComponent<Rigidbody2D>();
-            newPos += linkGap;
-            i++;
+            Vector3 linkGap = (pos2 - pos1).normalized;
+            linkGap *= linkSpace;
+            Vector3 newPos = pos1 + linkGap;
+            int i = 1;
+            while ((pos1 - pos2).magnitude >= (pos1 - newPos).magnitude)
+            {
+                currRope.Add(manager.getLink(false));
+                currRope[i].transform.position = newPos;
+                currRope[i].transform.up = Vector2.Perpendicular(pos1 - pos2);
+                currRope[i].GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
+                currRope[i - 1].GetComponent<SpringJoint2D>().connectedBody = currRope[i].GetComponent<Rigidbody2D>();
+                newPos += linkGap;
+                i++;
+            }
+            currRope[i - 1].GetComponent<SpringJoint2D>().connectedBody = p2.GetComponent<Rigidbody2D>();
         }
-        currRope[i - 1].GetComponent<SpringJoint2D>().connectedBody = p2.GetComponent<Rigidbody2D>();
         currRope.Add(p2);
+        //isRoping = false;
     }
 
     IEnumerator waitForRopeRemove(Vector3 ropePos)

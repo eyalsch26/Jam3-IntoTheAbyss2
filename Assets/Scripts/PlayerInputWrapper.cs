@@ -8,6 +8,7 @@ public class PlayerInputWrapper : MonoBehaviour
 {
     playerMovement controller;
     public PlayerAnimationManager animate;
+    public PlayerStats stats;
     static char ROPE_MODE = 'r';
     static char FIRE_MODE = 'f';
     static char SHIELD_MODE= 's';
@@ -90,6 +91,19 @@ public class PlayerInputWrapper : MonoBehaviour
             modeIdx = (mode.y > 0) ? modeIdx + 1 : modeIdx - 1;
             modeIdx = (modeIdx + 3) % 3;
             controller.changeMode(modeList[modeIdx]);
+            stats.startModeWheel();
+        }
+    }
+
+    public void iModeWheel(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+        {
+            stats.startModeWheel();
+        }
+        else if (context.phase == InputActionPhase.Canceled)
+        {
+            stats.closeModeWheel();
         }
     }
 

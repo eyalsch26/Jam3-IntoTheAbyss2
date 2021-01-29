@@ -33,6 +33,10 @@ public class PillScript : MonoBehaviour
 
     IEnumerator flashDissapear()
     {
+        if (!pillBody.activeSelf)
+        {
+            yield break; ;
+        }
         pillBody.SetActive(false);
         sparks.SetActive(true);
         yield return new WaitForSecondsRealtime(0.5f);
