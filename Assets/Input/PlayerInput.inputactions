@@ -66,7 +66,7 @@
                 {
                     "name": "",
                     "id": "8a1a3044-1cb7-4587-b65d-d298853fae56",
-                    "path": "<Mouse>/rightButton",
+                    "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
                     "groups": "PC player",
@@ -165,7 +165,7 @@
                 {
                     "name": "",
                     "id": "f5dfaaf6-4565-4705-919b-9e8d2a7d13aa",
-                    "path": "<Keyboard>/tab",
+                    "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "PC player",
