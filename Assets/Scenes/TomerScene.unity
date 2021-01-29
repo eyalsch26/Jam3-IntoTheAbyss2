@@ -5338,10 +5338,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 501548266, guid: a9efb0cf6065bab40b3d0bfb6d94ec83, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 152162015777365236, guid: a9efb0cf6065bab40b3d0bfb6d94ec83, type: 3}
       propertyPath: m_Name
       value: Player
@@ -5394,22 +5390,10 @@ PrefabInstance:
       propertyPath: manager
       value: 
       objectReference: {fileID: 197451601}
-    - target: {fileID: 152162015777365247, guid: a9efb0cf6065bab40b3d0bfb6d94ec83, type: 3}
-      propertyPath: maxVerticalSpeed
-      value: 5.5
-      objectReference: {fileID: 0}
     - target: {fileID: 6503037131948682780, guid: a9efb0cf6065bab40b3d0bfb6d94ec83, type: 3}
       propertyPath: manager
       value: 
       objectReference: {fileID: 197451601}
-    - target: {fileID: 6503037131948682780, guid: a9efb0cf6065bab40b3d0bfb6d94ec83, type: 3}
-      propertyPath: powerChargePerSec
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6503037131948682780, guid: a9efb0cf6065bab40b3d0bfb6d94ec83, type: 3}
-      propertyPath: shieldPowerUsagePerSec
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9efb0cf6065bab40b3d0bfb6d94ec83, type: 3}
 --- !u!1 &1724602399

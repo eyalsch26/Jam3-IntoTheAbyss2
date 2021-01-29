@@ -80,14 +80,6 @@ public class GhostScript : MonoBehaviour
         }    
     }
 
-    //void ghostKilled()
-    //{
-    //    ghost.SetActive(false);
-    //    iodineReward.SetActive(true);
-    //    GetComponent<Collider2D>().enabled = false;
-    //    this.enabled = false;
-    //}
-
     IEnumerator ghostKilled()
     {
         ghost.SetActive(false);

@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.InputSystem;
 
 public class PlayerStats : MonoBehaviour
 {
     public playerMovement controller;
     public GameController manager;
+
     public int maxHealth;
     public float maxPower;
     public int iodine;
@@ -15,7 +17,6 @@ public class PlayerStats : MonoBehaviour
     public float ropePowerUsage;
     public float shotPowerUsage;
     public float shieldPowerUsagePerSec;
-
     private int health;
     private float power;
 
@@ -28,6 +29,7 @@ public class PlayerStats : MonoBehaviour
     public Image gunIcon;
     public Image shieldIcon;
     public Image countDownHUAnimation;
+    public Image modeWheel;
     public List<Sprite> elements;
     //0- heartOn;
     //1-heartOff;
@@ -41,6 +43,17 @@ public class PlayerStats : MonoBehaviour
     //9- shieldOff;
     //10- IodineOn;
     //11- IodineOff;
+    //12- wheel rope
+    //13- wheel gun
+    //14- wheel shield
+
+
+    // mouseWheel vars:
+    public bool isModeChoosing;
+    Vector2 wheelCenter;
+    Vector2 mousePos;
+    char currMode = 'r';
+
 
     // Start is called before the first frame update
     void Start()
@@ -55,6 +68,10 @@ public class PlayerStats : MonoBehaviour
     void Update()
     {
         //HUD update
+        if (isModeChoosing)
+        {
+            MaintainModeWheel();
+        }
         int discretePower = (int) Mathf.Floor(power);
         for (int i = 0; i < discretePower; i++)
         {
@@ -175,6 +192,46 @@ public class PlayerStats : MonoBehaviour
                 shieldIcon.enabled = true;
                 break;
         }
+    }
+
+    public void startModeWheel()
+    {
+        modeWheel.enabled = true;
+        Vector2 pos = Mouse.current.position.ReadValue();
+        modeWheel.rectTransform.position = pos;
+        wheelCenter = pos;
+        isModeChoosing = true;
+    }
+
+    void MaintainModeWheel()
+    {
+        mousePos = Mouse.current.position.ReadValue();
+        //Debug.Log((mousePos - wheelCenter).magnitude);
+        if ((mousePos - wheelCenter).magnitude > 26 && (mousePos - wheelCenter).magnitude < 126)
+        {
+            float rad = Mathf.Atan2((mousePos - wheelCenter).y, (mousePos - wheelCenter).x);
+            if (rad <= -Mathf.PI / 6 && rad > -5 * Mathf.PI / 6) // gun
+            {
+                modeWheel.sprite = elements[13];
+                controller.changeMode('f');
+            }
+            else if (rad <= -5 * Mathf.PI / 6 || rad > Mathf.PI / 2) // shield
+            {
+                modeWheel.sprite = elements[14]; 
+                controller.changeMode('s');
+            }
+            else // rope
+            {
+                modeWheel.sprite = elements[12];
+                controller.changeMode('r');
+            }
+        }
+    }
+
+    public void closeModeWheel()
+    {
+        modeWheel.enabled = false;
+        isModeChoosing = false;
     }
 
     public bool setIodine(int amount)
