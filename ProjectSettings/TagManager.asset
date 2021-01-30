@@ -11,6 +11,8 @@ TagManager:
   - Hazard
   - Laser
   - Iodine
+  - Ghost
+  - LifePill
   layers:
   - Default
   - TransparentFX

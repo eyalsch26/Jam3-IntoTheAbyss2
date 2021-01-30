@@ -54,7 +54,7 @@ public class PitScript : MonoBehaviour
             for (int r = 0; r < roomsNum; ++r)
             {
                 GameObject room = Instantiate(Resources.Load("Difficulty" + l + "Room" + r)) as GameObject; // Instantiate(publicRooms[(l % levelsNum) * levelsNum + (r % roomsNum)]) as GameObject;
-                //GameObject room = Instantiate(Resources.Load("Difficulty0Room0")) as GameObject; // Instantiate(publicRooms[(l % levelsNum) * levelsNum + (r % roomsNum)]) as GameObject;
+                //GameObject room = Instantiate(Resources.Load("Difficulty1Room1")) as GameObject; // Instantiate(publicRooms[(l % levelsNum) * levelsNum + (r % roomsNum)]) as GameObject;
                 room.SetActive(false);
                 rooms[l, r] = room;
             }

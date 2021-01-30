@@ -5391,6 +5391,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 197451601}
     - target: {fileID: 6503037131948682780, guid: a9efb0cf6065bab40b3d0bfb6d94ec83, type: 3}
+      propertyPath: iodine
+      value: 99999
+      objectReference: {fileID: 0}
+    - target: {fileID: 6503037131948682780, guid: a9efb0cf6065bab40b3d0bfb6d94ec83, type: 3}
       propertyPath: manager
       value: 
       objectReference: {fileID: 197451601}
