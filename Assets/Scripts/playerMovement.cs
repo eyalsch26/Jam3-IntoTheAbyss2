@@ -53,6 +53,8 @@ public class playerMovement : MonoBehaviour
     public Material fireSuit;
     public Material shieldSuit;
 
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -330,11 +332,15 @@ public class playerMovement : MonoBehaviour
         {
             takeIodine();
         }
+        if (collision.tag == "Health")
+        {
+            stats.healthUp();
+        }
     }
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.collider.tag == "Platform")
+        if (collision.collider.tag == "Platform" || collision.collider.tag == "Hazard")
         {
             if (Physics2D.Raycast(transform.position, Vector2.down, distToGround + 0.1f))
             {
@@ -346,7 +352,7 @@ public class playerMovement : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.tag == "Hazard")
+        if (collision.collider.tag == "Hazard" || collision.collider.tag == "Missile")
         {
             hazardKickBack(collision.GetContact(0).point);
             takeHit();
@@ -363,7 +369,7 @@ public class playerMovement : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.collider.tag == "Platform")
+        if (collision.collider.tag == "Platform" || collision.collider.tag == "Hazard")
         {
             isOnGround = false;
             animate.setGrounded(false);

@@ -102,7 +102,11 @@ public class PlayerStats : MonoBehaviour
 
     public void healthUp()
     {
-        health++;
+        if (health < 3)
+        {
+            hearts[health].sprite = elements[0];
+            health++;
+        }
     }
 
     public bool tryUsePower(char ability)
@@ -213,16 +217,19 @@ public class PlayerStats : MonoBehaviour
             if (rad <= -Mathf.PI / 6 && rad > -5 * Mathf.PI / 6) // gun
             {
                 modeWheel.sprite = elements[13];
+                currMode = 'f';
                 controller.changeMode('f');
             }
             else if (rad <= -5 * Mathf.PI / 6 || rad > Mathf.PI / 2) // shield
             {
-                modeWheel.sprite = elements[14]; 
+                modeWheel.sprite = elements[14];
+                currMode = 's';
                 controller.changeMode('s');
             }
             else // rope
             {
                 modeWheel.sprite = elements[12];
+                currMode = 'r';
                 controller.changeMode('r');
             }
         }
@@ -251,5 +258,4 @@ public class PlayerStats : MonoBehaviour
     {
         IodineIcon.sprite = elements[11];
     }
-
 }

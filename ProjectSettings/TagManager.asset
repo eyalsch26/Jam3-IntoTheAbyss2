@@ -13,6 +13,8 @@ TagManager:
   - Iodine
   - Ghost
   - LifePill
+  - Health
+  - Missile
   layers:
   - Default
   - TransparentFX

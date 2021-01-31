@@ -14,7 +14,7 @@ public class ShotScript : MonoBehaviour
     public float lifeTime;
     private float currLifeTime;
     public static HashSet<string> nonBlockingObjectTags = new HashSet<string> { 
-    "Laser", "Rope", "Shot", "EnemyShot", "Iodine"};
+    "Laser", "Rope", "Shot", "EnemyShot", "Iodine", "Health"};
 
     // Start is called before the first frame update
     void Start()
