@@ -31,7 +31,7 @@ public class LauncherScript : MonoBehaviour
     {
         manager = GameObject.Find("Level").GetComponent<GameController>();
         playerTransform = GameObject.Find("Player").GetComponent<Transform>();
-        StartCoroutine(searching());
+        //StartCoroutine(searching());
     }
 
     // Update is called once per frame
@@ -72,29 +72,28 @@ public class LauncherScript : MonoBehaviour
 
     IEnumerator searching()
     {
-        int xDir = 1;
+        //int xDir = 1;
         int yDir = 1;
         while (isActive && !isLockedOnPlayer)
         {
             yPartTransform.Rotate(0, yDir * Time.deltaTime * rotationSpeed, 0);
-            if (yPartTransform.eulerAngles.y > 111)
+            if (yPartTransform.localRotation.y > 0.9)
             {
                 yDir = -1; 
             }
-            else if (yPartTransform.eulerAngles.y < 81) 
+            else if (yPartTransform.localRotation.y < 0.5) 
             {
                 yDir = 1; 
             }
-            xPartTransform.Rotate(xDir * Time.deltaTime * rotationSpeed, 0, 0);
-            Debug.Log(xPartTransform.rotation.x);
-            if (xPartTransform.rotation.x > 0.19)
-            {
-                xDir = -1;
-            }
-            else if (xPartTransform.rotation.x < - 0.13)
-            {
-                xDir = 1;
-            }
+            //xPartTransform.Rotate(xDir * Time.deltaTime * rotationSpeed, 0, 0);
+            //if (xPartTransform.localRotation.x > 0.2)
+            //{
+            //    xDir = -1;
+            //}
+            //else if (xPartTransform.localRotation.x < -0.2)
+            //{
+            //    xDir = 1;
+            //}
             yield return new WaitForFixedUpdate();
         }
     }
@@ -111,7 +110,7 @@ public class LauncherScript : MonoBehaviour
     public void resetMissile()
     {
         missile.transform.position = missilePlace.position;
-        missile.transform.rotation = Quaternion.Euler(new Vector3(0, -87, 0));
+        missile.transform.right = yPartTransform.forward;
         missileScript.resetMissile();
     }
 

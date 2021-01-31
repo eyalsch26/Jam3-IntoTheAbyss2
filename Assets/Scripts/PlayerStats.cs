@@ -20,9 +20,11 @@ public class PlayerStats : MonoBehaviour
     private int health;
     private float power;
 
+    
     // UI elements:
     public List<Image> hearts;
-    public List<Image> powerBar;
+    public List<Texture2D> powerCursor;
+    //public List<Image> powerBar;
     public TextMeshProUGUI iodineAmount;
     public Image IodineIcon;
     public Image ropeIcon;
@@ -47,12 +49,12 @@ public class PlayerStats : MonoBehaviour
     //13- wheel gun
     //14- wheel shield
 
-
     // mouseWheel vars:
     public bool isModeChoosing;
     Vector2 wheelCenter;
     Vector2 mousePos;
     char currMode = 'r';
+    bool powerBarActive = false;
 
 
     // Start is called before the first frame update
@@ -72,22 +74,31 @@ public class PlayerStats : MonoBehaviour
         {
             MaintainModeWheel();
         }
-        int discretePower = (int) Mathf.Floor(power);
-        for (int i = 0; i < discretePower; i++)
+
+        if (!powerBarActive && power < maxPower)
         {
-            powerBar[i].sprite = elements[2]; // on parts
+            powerBarActive = true;
         }
-        for (int i = discretePower; i < maxPower; i++)
+        if (powerBarActive)
         {
-            powerBar[i].sprite = elements[3]; // off parts
+            int discretePower = (int)Mathf.Floor(power);
+            Cursor.SetCursor(powerCursor[Mathf.Max(discretePower, 0)],
+                new Vector2(32, 32), CursorMode.Auto);
+            Debug.Log(discretePower + "   " + (int)maxPower);
+            if (discretePower == (int) maxPower)
+            {
+                powerBarActive = false;
+                StartCoroutine(hidePowerWheel());
+            }
         }
+
         if (iodine <= 0)
         {
             manager.gameOver();
         }
     }
 
-        public void healthDown()
+    public void healthDown()
     {
         health--;
         if (health == 0)
@@ -142,6 +153,16 @@ public class PlayerStats : MonoBehaviour
                 power = Mathf.Min(maxPower, power + 1);
             }    
         }    
+    }
+
+    IEnumerator hidePowerWheel()
+    {
+        yield return new WaitForSecondsRealtime(1f);
+        if (power == maxPower)
+        {
+            Cursor.SetCursor(powerCursor[(int)maxPower + 1],
+                new Vector2(32, 32), CursorMode.Auto);
+        }
     }
 
     IEnumerator iodineCountDown(float dropRate)
@@ -253,9 +274,11 @@ public class PlayerStats : MonoBehaviour
     public void IodineOn()
     {
         IodineIcon.sprite = elements[10];
+        iodineAmount.alpha = 255;
     }
     public void IodineOff()
     {
         IodineIcon.sprite = elements[11];
+        iodineAmount.alpha = 0.5f;
     }
 }
