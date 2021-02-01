@@ -5374,6 +5374,7 @@ GameObject:
   - component: {fileID: 963194226}
   - component: {fileID: 963194229}
   - component: {fileID: 963194230}
+  - component: {fileID: 963194231}
   m_Layer: 8
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -5604,6 +5605,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &963194231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98d3776a8e7765f4ca593a807c347c67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1149111327
 GameObject:
   m_ObjectHideFlags: 0
@@ -6247,34 +6260,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 152162015777365246, guid: a9efb0cf6065bab40b3d0bfb6d94ec83, type: 3}
-      propertyPath: m_ActionEvents.Array.data[7].m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 152162015777365246, guid: a9efb0cf6065bab40b3d0bfb6d94ec83, type: 3}
-      propertyPath: m_ActionEvents.Array.data[7].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 152162015777365246, guid: a9efb0cf6065bab40b3d0bfb6d94ec83, type: 3}
-      propertyPath: m_ActionEvents.Array.data[7].m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1958974466}
-    - target: {fileID: 152162015777365246, guid: a9efb0cf6065bab40b3d0bfb6d94ec83, type: 3}
-      propertyPath: m_ActionEvents.Array.data[7].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 152162015777365246, guid: a9efb0cf6065bab40b3d0bfb6d94ec83, type: 3}
-      propertyPath: m_ActionEvents.Array.data[7].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: iPause
-      objectReference: {fileID: 0}
-    - target: {fileID: 152162015777365246, guid: a9efb0cf6065bab40b3d0bfb6d94ec83, type: 3}
-      propertyPath: m_ActionEvents.Array.data[7].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: PlayerInputWrapper, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 152162015777365246, guid: a9efb0cf6065bab40b3d0bfb6d94ec83, type: 3}
-      propertyPath: m_ActionEvents.Array.data[7].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 152162015777365247, guid: a9efb0cf6065bab40b3d0bfb6d94ec83, type: 3}
       propertyPath: manager
       value: 
@@ -6541,17 +6526,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1953904144}
   m_CullTransparentMesh: 1
---- !u!114 &1958974466 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 152162015777365245, guid: a9efb0cf6065bab40b3d0bfb6d94ec83, type: 3}
-  m_PrefabInstance: {fileID: 1577970543}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bc30893a34f83646a7e68ceaaecec6c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2087650298
 GameObject:
   m_ObjectHideFlags: 0

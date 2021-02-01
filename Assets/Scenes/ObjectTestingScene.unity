@@ -306,6 +306,8 @@ MonoBehaviour:
   linkPoolNum: 50
   shotPrefab: {fileID: 7240190402451970307, guid: b0d86b12d7307be4a950f20021498931, type: 3}
   shotPoolNum: 100
+  gameIsOver: 0
+  isPaused: 0
 --- !u!4 &197451602
 Transform:
   m_ObjectHideFlags: 0
@@ -6013,6 +6015,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1609829830280721716, guid: 627980986098d0e4ab38e4c90d11e733, type: 3}
+      propertyPath: takeHitAud
+      value: 
+      objectReference: {fileID: 8300000, guid: 6530387710e1a1b429a31eb5bfd68b3d, type: 3}
     - target: {fileID: 4247014510961490599, guid: 627980986098d0e4ab38e4c90d11e733, type: 3}
       propertyPath: m_RootOrder
       value: 0
