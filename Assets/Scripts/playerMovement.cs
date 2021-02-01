@@ -53,6 +53,8 @@ public class playerMovement : MonoBehaviour
     public Material fireSuit;
     public Material shieldSuit;
 
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -208,18 +210,6 @@ public class playerMovement : MonoBehaviour
     }
 
 
-    //private void maintainShield()
-    //{
-    //    Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
-    //    float distance = transform.position.z - mainCamera.transform.position.z;
-    //    Vector3 pos = ray.GetPoint(distance);
-    //    Vector3 shieldDir = (pos - transform.position).normalized;
-    //    shield.transform.position = transform.position + shieldDir * 1.5f;
-    //    shield.transform.up = shieldDir;
-    //}
-
-
-
     private void fireShot(Vector3 pos)
     {
         Vector3 shotDirection = (pos - gunEdgeTransform.position).normalized;
@@ -330,11 +320,15 @@ public class playerMovement : MonoBehaviour
         {
             takeIodine();
         }
+        if (collision.tag == "Health")
+        {
+            stats.healthUp();
+        }
     }
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.collider.tag == "Platform")
+        if (collision.collider.tag == "Platform" || collision.collider.tag == "Hazard" || collision.collider.tag == "Barrel")
         {
             if (Physics2D.Raycast(transform.position, Vector2.down, distToGround + 0.1f))
             {
@@ -346,7 +340,7 @@ public class playerMovement : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.tag == "Hazard")
+        if (collision.collider.tag == "Hazard" || collision.collider.tag == "Missile")
         {
             hazardKickBack(collision.GetContact(0).point);
             takeHit();
@@ -363,7 +357,7 @@ public class playerMovement : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.collider.tag == "Platform")
+        if (collision.collider.tag == "Platform" || collision.collider.tag == "Hazard")
         {
             isOnGround = false;
             animate.setGrounded(false);

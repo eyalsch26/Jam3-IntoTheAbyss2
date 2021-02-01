@@ -8,6 +8,8 @@ public class PlayerAnimationManager : MonoBehaviour
     public Transform aimTarget;
     public playerMovement movementScript;
     public SkinnedMeshRenderer mesh;
+    public GameObject gunObj;
+    public GameObject canistersObj;
     public Material hitMaterial;
     private Animator animator;
     public bool isWalking;
@@ -42,7 +44,7 @@ public class PlayerAnimationManager : MonoBehaviour
     public void takeHit()
     {
         animator.SetBool(Animator.StringToHash("takeHit"), true);
-        StartCoroutine(FadeTo(0, 0.25f));
+        StartCoroutine(HitFlicker());
     }
 
     public void setGrounded(bool isGrounded)
@@ -62,27 +64,21 @@ public class PlayerAnimationManager : MonoBehaviour
         }
     }
 
-    IEnumerator FadeTo(float aValue, float aTime)
+    IEnumerator HitFlicker()
     {
-        Material startMat = mesh.material;
-        hitMaterial.color = startMat.color;
-        mesh.material = hitMaterial;
-
-        for (int i = 0; i < 4; i++)
+        float t = 2;
+        float quantum = 0.125f;
+        while (t >= 0)
         {
-            for (float t = 0.0f; t < 1.0f; t += Time.unscaledDeltaTime / aTime)
-            {
-                Color newColor = new Color(1, 1, 1, Mathf.Lerp(1, aValue, t));
-                mesh.material.color = newColor;
-                yield return null;
-            }
-            for (float t = 0.0f; t < 1.0f; t += Time.unscaledDeltaTime / aTime)
-            {
-                Color newColor = new Color(1, 1, 1, Mathf.Lerp(aValue, 1, t));
-                mesh.material.color = newColor;
-                yield return null;
-            }
+            t -= 2 * quantum;
+            mesh.enabled = false;
+            gunObj.SetActive(false);
+            canistersObj.SetActive(false);
+            yield return new WaitForSeconds(quantum);
+            mesh.enabled = true;
+            gunObj.SetActive(true);
+            canistersObj.SetActive(true);
+            yield return new WaitForSeconds(quantum);
         }
-        mesh.material = startMat;
     }
 }

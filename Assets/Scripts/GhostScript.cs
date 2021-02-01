@@ -27,7 +27,7 @@ public class GhostScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if ((pTransform.position - ghost.transform.position).magnitude < 10)
+        if ((pTransform.position - ghost.transform.position).magnitude < 8)
         {
             followPlayer();
         }
