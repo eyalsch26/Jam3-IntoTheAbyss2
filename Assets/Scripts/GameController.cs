@@ -35,6 +35,8 @@ public class GameController : MonoBehaviour
 
     // Pause.
     public bool isPaused = false;
+    private GameObject PauseCanvas;
+    private TMP_Text curDepthScore;
 
     private void Awake()
     {
@@ -160,5 +162,18 @@ public class GameController : MonoBehaviour
             //SceneManager.LoadScene(2);
         }
         gameIsOver = true;
+    }
+
+    public void PauseGame()
+    {
+        if (!gameIsOver)
+        {
+            isPaused = true;
+            Time.timeScale = 0.0f;
+            depth = (int)Mathf.Floor(mainCamera.transform.position.y);
+            curDepthScore.text += (-1) * depth * 10 + "m";
+            gameOverCanvas.GetComponent<Canvas>().planeDistance = 0.5f;
+            //SceneManager.LoadScene(2);
+        }
     }
 }
