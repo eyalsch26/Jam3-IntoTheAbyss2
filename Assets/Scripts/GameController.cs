@@ -76,14 +76,20 @@ public class GameController : MonoBehaviour
             pills[i] = pill;
         }
 
-        // Initializing game over screen;
+        // Initializing game over screen.
         depth = 0;
         gameOverCanvas = GameObject.Find("GameOverCanvas");
         gameOverCanvas.GetComponent<Canvas>().planeDistance = 100f;
         depthScore = GameObject.Find("DepthScore").GetComponent<TMP_Text>();
         gameIsOver = false;
 
-        player = GameObject.Find("Player");
+        // Initializing pause screen.
+        PauseCanvas = GameObject.Find("PauseCanvas");
+        PauseCanvas.GetComponent<Canvas>().planeDistance = 101f;
+        curDepthScore = GameObject.Find("CurrentDepthScore").GetComponent<TMP_Text>();
+        isPaused = false;
+
+    player = GameObject.Find("Player");
         playerTransform = player.transform;
     }
 
@@ -158,18 +164,31 @@ public class GameController : MonoBehaviour
     }
     public void pauseGame()
     {
-        isPaused = true;
-        Time.timeScale = 0;
-        mainCamera.GetComponent<AudioSource>().Pause();
-        // menus..
+        if (!gameIsOver)
+        {
+            // Disabling game fancutalities.
+            player.GetComponent<PlayerInputWrapper>().enabled = false;
+            // Pausing.
+            isPaused = true;
+            Time.timeScale = 0;
+            mainCamera.GetComponent<AudioSource>().Pause();
+            // Menus.
+            depth = (int)Mathf.Floor(mainCamera.transform.position.y);
+            curDepthScore.text = "So far you Reached: " + (-1) * depth * 10 + "m";
+            PauseCanvas.GetComponent<Canvas>().planeDistance = 0.5f;
+        }
     }
 
     public void resumeGame()
     {
+        // Enabling game fancutalities.
+        player.GetComponent<PlayerInputWrapper>().enabled = true;
+        // Resuming.
         isPaused = false;
         Time.timeScale = 1;
         mainCamera.GetComponent<AudioSource>().Play();
-        // menus..
+        // Menus.
+        PauseCanvas.GetComponent<Canvas>().planeDistance = 100f;
     }
 
     public void gameOver()
@@ -178,23 +197,9 @@ public class GameController : MonoBehaviour
         {
             Time.timeScale = 0.0f;
             depth = (int)Mathf.Floor(mainCamera.transform.position.y);
-            depthScore.text += (-1) * depth * 10 + "m";
+            depthScore.text = "You Reached: " + (-1) * depth * 10 + "m";
             gameOverCanvas.GetComponent<Canvas>().planeDistance = 0.5f;
-            //SceneManager.LoadScene(2);
         }
         gameIsOver = true;
-    }
-
-    public void PauseGame()
-    {
-        if (!gameIsOver)
-        {
-            isPaused = true;
-            Time.timeScale = 0.0f;
-            depth = (int)Mathf.Floor(mainCamera.transform.position.y);
-            curDepthScore.text += (-1) * depth * 10 + "m";
-            gameOverCanvas.GetComponent<Canvas>().planeDistance = 0.5f;
-            //SceneManager.LoadScene(2);
-        }
     }
 }
