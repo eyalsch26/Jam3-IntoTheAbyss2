@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 3ae497f12354a0b4c828847ab0c9a7a9
+guid: 285e38b1b340b8340a0fb048b4629b41
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -11,18 +11,15 @@ TrueTypeFontImporter:
   fontNames:
   - Futura Std
   fallbackFontReferences:
-  - {fileID: 12800000, guid: c4cad96bd32e4424f8a12f41111977ba, type: 3}
-  - {fileID: 12800000, guid: 24f7b3eb23e898c4d9e4dc58e71b1fe3, type: 3}
-  - {fileID: 12800000, guid: 372e0dea6c5af6f4285abea59e699d51, type: 3}
-  - {fileID: 12800000, guid: 32043f387544d57469b2a0f749eeea62, type: 3}
-  - {fileID: 12800000, guid: 797626f2297074d4aaf12d942e6f27ef, type: 3}
-  - {fileID: 12800000, guid: 4363b7d33315a4d4cb428396f5fa783f, type: 3}
-  - {fileID: 12800000, guid: 4769efbc9ee24564d8335ca696449112, type: 3}
-  - {fileID: 12800000, guid: 47a121fca46c1184d9c107c635ac5d4a, type: 3}
-  - {fileID: 12800000, guid: a062ad40c682a474db3e4658e8602a6f, type: 3}
-  - {fileID: 12800000, guid: 94ce3f8f0032af64f8999d030867d5e1, type: 3}
-  - {fileID: 12800000, guid: a60b271e24c88c04abafcbdfed9a0043, type: 3}
-  - {fileID: 12800000, guid: b43d0e30691b89a4d9a49fc6dc73a5ec, type: 3}
+  - {fileID: 12800000, guid: f238b10d581d6334c861f9ee80d876d7, type: 3}
+  - {fileID: 12800000, guid: 73d872adec0d21f419274c66fdde7dff, type: 3}
+  - {fileID: 12800000, guid: 53ce7215cab853b44bc5de4d65fbb348, type: 3}
+  - {fileID: 12800000, guid: 85a2b954227f8a749a8cdbebc94f1b57, type: 3}
+  - {fileID: 12800000, guid: f5dd0c04da4451b4185d94ea5a79c722, type: 3}
+  - {fileID: 12800000, guid: 26112f733f459df489ca106943c417e8, type: 3}
+  - {fileID: 12800000, guid: 45941e5959b72ec4cad66c36f4ebd704, type: 3}
+  - {fileID: 12800000, guid: a1d9f28a0e869264ab7867d605e9a05e, type: 3}
+  - {fileID: 12800000, guid: d4369211e62207741932ab82ed697f89, type: 3}
   customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1
