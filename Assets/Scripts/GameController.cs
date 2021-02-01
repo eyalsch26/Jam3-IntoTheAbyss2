@@ -31,7 +31,7 @@ public class GameController : MonoBehaviour
     private int depth;
     private GameObject gameOverCanvas;
     private TMP_Text depthScore;
-    private bool gameIsOver;
+    public bool gameIsOver;
 
     // Pause.
     public bool isPaused = false;
@@ -147,6 +147,27 @@ public class GameController : MonoBehaviour
 
     void Update()
     {
+    }
+    
+
+    public bool getIsNotPaused()
+    {
+        return !isPaused;
+    }
+    public void pauseGame()
+    {
+        isPaused = true;
+        Time.timeScale = 0;
+        mainCamera.GetComponent<AudioSource>().Pause();
+        // menus..
+    }
+
+    public void resumeGame()
+    {
+        isPaused = false;
+        Time.timeScale = 1;
+        mainCamera.GetComponent<AudioSource>().Play();
+        // menus..
     }
 
     public void gameOver()

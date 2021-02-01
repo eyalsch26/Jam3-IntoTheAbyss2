@@ -115,4 +115,19 @@ public class PlayerInputWrapper : MonoBehaviour
             SceneManager.LoadScene("TomerScene");
         }
     }
+
+    public void iPause(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+        {
+            if (!controller.manager.isPaused)
+            {
+                controller.manager.pauseGame();
+            }
+            else if(!controller.manager.gameIsOver)
+            {
+                controller.manager.resumeGame();
+            }
+        }
+    }
 }

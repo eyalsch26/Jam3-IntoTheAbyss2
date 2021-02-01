@@ -250,6 +250,7 @@ public class playerMovement : MonoBehaviour
             while (isSlowingTime)
             {
                 yield return new WaitForSecondsRealtime(1f);
+                yield return new WaitUntil(manager.getIsNotPaused);
                 if (!stats.setIodine(-1))
                 {
                     slowTime(false);
@@ -315,7 +316,7 @@ public class playerMovement : MonoBehaviour
 
     void takeIodine()
     {
-        stats.setIodine(3);
+        stats.setIodine(2);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

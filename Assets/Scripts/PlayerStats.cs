@@ -60,7 +60,7 @@ public class PlayerStats : MonoBehaviour
 
     //Iodine bar vars:
     float currIodineMax;
-    float frameMax = 360;
+    float frameMax = 240;
     bool isIodineBarActive = false;
 
 
@@ -174,6 +174,7 @@ public class PlayerStats : MonoBehaviour
     IEnumerator hidePowerWheel()
     {
         yield return new WaitForSecondsRealtime(1f);
+
         if (power == maxPower)
         {
             Cursor.SetCursor(powerCursor[(int)maxPower + 1],
@@ -187,6 +188,7 @@ public class PlayerStats : MonoBehaviour
         while (iodine > 0)
         {
             yield return new WaitForSecondsRealtime(dropRate);
+            yield return new WaitUntil(manager.getIsNotPaused);
             setIodine(-1);
         }
     }
