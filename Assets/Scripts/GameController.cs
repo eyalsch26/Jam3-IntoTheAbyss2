@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 public class GameController : MonoBehaviour
 {
@@ -26,6 +27,15 @@ public class GameController : MonoBehaviour
     private int pillsNum = 50;
     private GameObject[] pills;
 
+    // Game over screen.
+    private int depth;
+    private GameObject gameOverCanvas;
+    private TMP_Text depthScore;
+    private bool gameIsOver;
+
+    // Pause.
+    public bool isPaused = false;
+
     private void Awake()
     {
         mainCamera = Camera.main;
@@ -34,6 +44,8 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Setting the time.
+        Time.timeScale = 1.0f;
 
         // Initializing chain links.
         linkPool = new GameObject[linkPoolNum];
@@ -61,6 +73,13 @@ public class GameController : MonoBehaviour
             pill.SetActive(false);
             pills[i] = pill;
         }
+
+        // Initializing game over screen;
+        depth = 0;
+        gameOverCanvas = GameObject.Find("GameOverCanvas");
+        gameOverCanvas.GetComponent<Canvas>().planeDistance = 100f;
+        depthScore = GameObject.Find("DepthScore").GetComponent<TMP_Text>();
+        gameIsOver = false;
 
         player = GameObject.Find("Player");
         playerTransform = player.transform;
@@ -132,6 +151,14 @@ public class GameController : MonoBehaviour
 
     public void gameOver()
     {
-        SceneManager.LoadScene(2);
+        if (!gameIsOver)
+        {
+            Time.timeScale = 0.0f;
+            depth = (int)Mathf.Floor(mainCamera.transform.position.y);
+            depthScore.text += (-1) * depth * 10 + "m";
+            gameOverCanvas.GetComponent<Canvas>().planeDistance = 0.5f;
+            //SceneManager.LoadScene(2);
+        }
+        gameIsOver = true;
     }
 }

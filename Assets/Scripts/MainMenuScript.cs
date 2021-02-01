@@ -7,7 +7,8 @@ public class MainMenuScript : MonoBehaviour
 {
     public void PlayGame()
     {
-        SceneManager.LoadScene(1); // 1 is the index of the game scene.
+        //SceneManager.LoadScene(1); // 1 is the index of the game scene.
+        SceneManager.LoadScene("EyalScene"); // 1 is the index of the game scene.
     }
 
     public void MainMenu()

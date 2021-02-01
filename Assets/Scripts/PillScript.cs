@@ -47,11 +47,14 @@ public class PillScript : MonoBehaviour
 
     private void PullToPlayer()
     {
-        Vector3 difference = GameController.playerTransform.position - gameObject.transform.position;
-        float distance = difference.magnitude;
-        if(distance < pullingRadius)
+        if(GameController.playerTransform != null)
         {
-            gameObject.transform.position = gameObject.transform.position + difference.normalized * playerGravity * (pullingRadius - distance) * Time.deltaTime;
+            Vector3 difference = GameController.playerTransform.position - gameObject.transform.position;
+            float distance = difference.magnitude;
+            if(distance < pullingRadius)
+            {
+                gameObject.transform.position = gameObject.transform.position + difference.normalized * playerGravity * (pullingRadius - distance) * Time.deltaTime;
+            }
         }
     }
 }
