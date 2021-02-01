@@ -13,6 +13,10 @@ public class MissileScript : MonoBehaviour
     public LauncherScript daddy;
     Vector3 prevMove;
 
+    public AudioSource audio;
+    public AudioClip engineAud;
+    public AudioClip explodeAud;
+
     public static HashSet<string> nonBlockingObjectTags = new HashSet<string> {
     "Laser", "Rope", "Iodine", "Health"};
 
@@ -39,6 +43,9 @@ public class MissileScript : MonoBehaviour
 
     public void getLaunched(Transform p)
     {
+        audio.clip = engineAud;
+        audio.loop = true;
+        audio.Play();
         pTransform = p;
         blaze.SetActive(true);
         isActive = true;
@@ -66,6 +73,9 @@ public class MissileScript : MonoBehaviour
 
     IEnumerator exploded()
     {
+        audio.clip = explodeAud;
+        audio.loop = false;
+        audio.Play();   
         missile.SetActive(false);
         blaze.SetActive(false);
         explosion.SetActive(true);

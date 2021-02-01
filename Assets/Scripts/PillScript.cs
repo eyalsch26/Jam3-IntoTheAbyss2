@@ -9,6 +9,7 @@ public class PillScript : MonoBehaviour
     private float playerGravity = 5f;
     public GameObject pillBody;
     public GameObject sparks;
+    public AudioSource audio;
     
     // Start is called before the first frame update
     void Start()
@@ -37,12 +38,15 @@ public class PillScript : MonoBehaviour
         {
             yield break; ;
         }
+        audio.enabled = true;
+        audio.Play();
         pillBody.SetActive(false);
         sparks.SetActive(true);
         yield return new WaitForSecondsRealtime(0.5f);
         gameObject.SetActive(false);
         pillBody.SetActive(true);
         sparks.SetActive(false);
+        audio.enabled = false;
     }
 
     private void PullToPlayer()

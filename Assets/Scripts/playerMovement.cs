@@ -10,7 +10,7 @@ public class playerMovement : MonoBehaviour
     public PlayerStats stats;
     Rigidbody2D body;
     private GameObject rig;
-    private PlayerAnimationManager animate;
+    public PlayerAnimationManager animate;
 
     // player properties;
     public float moveForce;
@@ -131,6 +131,7 @@ public class playerMovement : MonoBehaviour
     {
         if (isOnGround)
         {
+            animate.playJump();
             animate.jump();
             body.AddForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
             animate.setGrounded(false);
@@ -160,6 +161,7 @@ public class playerMovement : MonoBehaviour
                 return;
             }            
             deleteRope();
+            animate.playRopeStart();
             currRope.Add(ropeLinkHandler(mousePos));
             isRoping = true;
         }
@@ -212,6 +214,7 @@ public class playerMovement : MonoBehaviour
 
     private void fireShot(Vector3 pos)
     {
+        animate.playShot();
         Vector3 shotDirection = (pos - gunEdgeTransform.position).normalized;
         GameObject shot = manager.getShot(true);
         shot.transform.position = gunEdgeTransform.position;
@@ -225,6 +228,8 @@ public class playerMovement : MonoBehaviour
             if (!stats.setIodine(-1))
             { return; }
             stats.IodineOn();
+            animate.playSlowTime();
+            mainCamera.GetComponent<AudioSource>().pitch = 0.7f;
             Time.timeScale = 0.15f;
             Time.fixedDeltaTime *= Time.timeScale;
             isSlowingTime = true;
@@ -232,6 +237,8 @@ public class playerMovement : MonoBehaviour
         }
         else
         {
+            mainCamera.GetComponent<AudioSource>().pitch = 1;
+            animate.playSlowTimeEnd();
             stats.IodineOff();
             isSlowingTime = false;
             Time.timeScale = 1f;
@@ -286,6 +293,7 @@ public class playerMovement : MonoBehaviour
         if (invincible || shieldOn) return;
         StartCoroutine(tempInvincibility(2));
         animate.takeHit();
+        animate.playHurtSound();
         stats.healthDown();
 
         IEnumerator tempInvincibility(float time)
@@ -344,6 +352,15 @@ public class playerMovement : MonoBehaviour
         {
             hazardKickBack(collision.GetContact(0).point);
             takeHit();
+            if (collision.collider.tag == "Hazard")
+            {
+                animate.playAcidSplash();
+            }
+        }
+        else if (collision.collider.tag == "Platform" &&
+            Physics2D.Raycast(transform.position, Vector2.down, distToGround + 0.1f))
+        {
+                animate.playLandOnPlatform();
         }
 
         else if (collision.collider.tag == "Rope")
@@ -411,6 +428,7 @@ public class playerMovement : MonoBehaviour
         {
             return;
         }
+        animate.playRopeCreated();
         ropeLine.enabled = false;
         GameObject p1 = currRope[0];
         GameObject p2 = ropeLinkHandler(endPos);

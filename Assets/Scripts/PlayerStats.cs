@@ -84,7 +84,6 @@ public class PlayerStats : MonoBehaviour
             int discretePower = (int)Mathf.Floor(power);
             Cursor.SetCursor(powerCursor[Mathf.Max(discretePower, 0)],
                 new Vector2(32, 32), CursorMode.Auto);
-            Debug.Log(discretePower + "   " + (int)maxPower);
             if (discretePower == (int) maxPower)
             {
                 powerBarActive = false;
@@ -140,6 +139,7 @@ public class PlayerStats : MonoBehaviour
             power -= price;
             return true;
         }
+        controller.animate.playEmptyAud();
         return false;
     }
 
@@ -231,7 +231,6 @@ public class PlayerStats : MonoBehaviour
     void MaintainModeWheel()
     {
         mousePos = Mouse.current.position.ReadValue();
-        //Debug.Log((mousePos - wheelCenter).magnitude);
         if ((mousePos - wheelCenter).magnitude > 26 && (mousePos - wheelCenter).magnitude < 126)
         {
             float rad = Mathf.Atan2((mousePos - wheelCenter).y, (mousePos - wheelCenter).x);

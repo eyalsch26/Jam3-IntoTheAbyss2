@@ -5251,7 +5251,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 5e3b348fa23ee6444b5049243117317b, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.72
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -5435,6 +5435,50 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 219840262, guid: a9efb0cf6065bab40b3d0bfb6d94ec83, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 219840262, guid: a9efb0cf6065bab40b3d0bfb6d94ec83, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 227429963, guid: a9efb0cf6065bab40b3d0bfb6d94ec83, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 227429963, guid: a9efb0cf6065bab40b3d0bfb6d94ec83, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 227429963, guid: a9efb0cf6065bab40b3d0bfb6d94ec83, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 683963117, guid: a9efb0cf6065bab40b3d0bfb6d94ec83, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 683963117, guid: a9efb0cf6065bab40b3d0bfb6d94ec83, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 683963117, guid: a9efb0cf6065bab40b3d0bfb6d94ec83, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 55
+      objectReference: {fileID: 0}
+    - target: {fileID: 1225521228, guid: a9efb0cf6065bab40b3d0bfb6d94ec83, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -268.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1537372956, guid: a9efb0cf6065bab40b3d0bfb6d94ec83, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -230
+      objectReference: {fileID: 0}
+    - target: {fileID: 1694317043, guid: a9efb0cf6065bab40b3d0bfb6d94ec83, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -220
+      objectReference: {fileID: 0}
     - target: {fileID: 152162015777365236, guid: a9efb0cf6065bab40b3d0bfb6d94ec83, type: 3}
       propertyPath: m_Name
       value: Player
@@ -5487,6 +5531,10 @@ PrefabInstance:
       propertyPath: manager
       value: 
       objectReference: {fileID: 197451601}
+    - target: {fileID: 152162017382105477, guid: a9efb0cf6065bab40b3d0bfb6d94ec83, type: 3}
+      propertyPath: iodineAud
+      value: 
+      objectReference: {fileID: 8300000, guid: 57dc58e1d9140d841bc4a207b77475cb, type: 3}
     - target: {fileID: 6503037131948682780, guid: a9efb0cf6065bab40b3d0bfb6d94ec83, type: 3}
       propertyPath: manager
       value: 

@@ -14,10 +14,24 @@ public class PlayerAnimationManager : MonoBehaviour
     private Animator animator;
     public bool isWalking;
 
+    // sound
+    AudioSource audio;
+    public AudioClip jumpAud;
+    public AudioClip shotAud;
+    public AudioClip RopeStartAud;
+    public AudioClip RopeEndAud;
+    public AudioClip SlowTimeAud;
+    //public AudioClip SlowTimeEndAud;
+    public AudioClip EmptyAud;
+    public AudioClip landPlatformAud;
+    public AudioClip acidSplashAud;
+    public AudioClip hurtAud;
+
     // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
+        audio = GetComponent<AudioSource>();
     }
 
     public void setWalking(bool Walking)
@@ -81,4 +95,77 @@ public class PlayerAnimationManager : MonoBehaviour
             yield return new WaitForSeconds(quantum);
         }
     }
+
+    // audio methods
+    public void playJump()
+    {
+        audio.clip = jumpAud;
+        audio.pitch = (movementScript.isSlowingTime) ? 0.7f : 1;
+        audio.Play();
+    }
+
+    public void playShot()
+    {
+        audio.clip = shotAud;
+        audio.pitch = (movementScript.isSlowingTime) ? 0.7f : 1;
+        audio.Play();
+    }
+
+    public void playRopeStart()
+    {
+        audio.clip = RopeStartAud;
+        audio.pitch = (movementScript.isSlowingTime) ? 0.7f : 1;
+        audio.Play();
+    }
+
+    public void playRopeCreated()
+    {
+        audio.clip = RopeEndAud;
+        audio.pitch = (movementScript.isSlowingTime) ? 0.7f : 1;
+        audio.Play();
+    }
+
+    public void playSlowTime()
+    {
+        audio.clip = SlowTimeAud;
+        audio.pitch = 0.7f;
+        audio.Play();
+    }
+
+    public void playSlowTimeEnd()
+    {
+        audio.pitch = -1;
+        audio.clip = SlowTimeAud;
+        audio.Play();
+        audio.pitch = 1;
+    }
+
+
+    public void playEmptyAud()
+    {
+        audio.clip = EmptyAud;
+        audio.pitch = (movementScript.isSlowingTime) ? 0.7f : 1;
+        audio.Play();
+    }
+
+    public void playLandOnPlatform()
+    {
+        audio.clip = landPlatformAud;
+        audio.pitch = (movementScript.isSlowingTime) ? 0.7f : 1;
+        audio.Play();
+    }
+
+    public void playAcidSplash()
+    {
+        audio.clip = acidSplashAud;
+        audio.pitch = (movementScript.isSlowingTime) ? 0.7f : 1;
+        audio.Play();
+    }
+
+    public void playHurtSound()
+    {
+        audio.clip = hurtAud;
+        audio.pitch = (movementScript.isSlowingTime) ? 0.7f : 1.5f;
+        audio.Play();
+    }   
 }
