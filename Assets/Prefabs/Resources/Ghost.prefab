@@ -138,7 +138,7 @@ MonoBehaviour:
   gunTransform: {fileID: 4573682485446943801}
   audio: {fileID: 1866295515900983637}
   ghostShootAud: {fileID: 8300000, guid: 140d7b5fab840fe4d85fca4f1aa10c30, type: 3}
-  ghostDie: {fileID: 0}
+  ghostDie: {fileID: 8300000, guid: 252215526b1ec054aa7375f5aa627e78, type: 3}
 --- !u!60 &8639857406829502465
 PolygonCollider2D:
   m_ObjectHideFlags: 0

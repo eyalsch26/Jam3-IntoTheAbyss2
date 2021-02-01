@@ -32,6 +32,7 @@ public class LauncherScript : MonoBehaviour
     public AudioClip lockOnAud;
     public AudioClip takeHitAud;
     public AudioClip explodeAud;
+    public AudioClip rotateAud;
 
     // Start is called before the first frame update
     void Start()
@@ -48,15 +49,24 @@ public class LauncherScript : MonoBehaviour
         if (!isActive && (transform.position - playerTransform.position).magnitude <= activeDistance)
         {
             isActive = true;
+            audio.enabled = true;
+            audio.clip = rotateAud;
+            audio.loop = true;
+            audio.Play();
             StartCoroutine(searching());
         }
         // searching -> locked on player
         else if (isActive && (transform.position - playerTransform.position).magnitude <= lockDistance)
         {
-            audio.clip = lockOnAud;
-            audio.Play();
-            lockEye.SetActive(true);
-            isLockedOnPlayer = true;
+            if (!isLockedOnPlayer)
+            {
+                audio.clip = lockOnAud;
+                audio.loop = false;
+                audio.Play();
+                lockEye.SetActive(true);
+                isLockedOnPlayer = true;
+            }
+            
             xPartTransform.forward = playerTransform.position - transform.position;
             yPartTransform.eulerAngles = new Vector3(0, 100, 0);
             if (!missileScript.isActive)
@@ -67,6 +77,9 @@ public class LauncherScript : MonoBehaviour
         // locked -> searching
         else if (isLockedOnPlayer && (transform.position - playerTransform.position).magnitude > lockDistance)
         {
+            audio.clip = rotateAud;
+            audio.loop = true;
+            audio.Play();
             lockEye.SetActive(false);
             isLockedOnPlayer = false;
             StartCoroutine(searching());
@@ -75,6 +88,7 @@ public class LauncherScript : MonoBehaviour
         else if (isActive && (transform.position - playerTransform.position).magnitude > activeDistance)
         {
             isActive = false;
+            audio.enabled = false;
 
         }
     }
@@ -128,8 +142,17 @@ public class LauncherScript : MonoBehaviour
     void takeHit(int damage)
     {
         health -= damage;
-        audio.clip = takeHitAud;
-        audio.Play();
+        //audio.clip = takeHitAud;
+        //audio.Play();
+        AudioSource la = launcher.GetComponent<AudioSource>();
+        if(!la.enabled)
+        {
+            la.enabled = true;
+        }
+        else
+        {
+            la.Play();
+        }
         if (health <= 0)
         {
             //alive = false;

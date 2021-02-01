@@ -522,7 +522,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 972.5, y: 21.5}
+  m_AnchoredPosition: {x: 30, y: 18.48999}
   m_SizeDelta: {x: 91, y: 3}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &501548267
@@ -2361,7 +2361,19 @@ MonoBehaviour:
     m_ActionId: 829386c9-aadf-4454-9aa0-ca40de3a01d2
     m_ActionName: player normal/ModeWheel[/Keyboard/tab]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 152162015777365245}
+        m_TargetAssemblyTypeName: PlayerInputWrapper, Assembly-CSharp
+        m_MethodName: iPause
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 27bb1588-ebcc-4b0a-bebc-4bd5e9439f36
     m_ActionName: player normal/Pause[/Keyboard/escape]
   m_NeverAutoSwitchControlSchemes: 0

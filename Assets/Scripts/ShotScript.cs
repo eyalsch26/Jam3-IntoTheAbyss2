@@ -29,6 +29,7 @@ public class ShotScript : MonoBehaviour
         Vector3 move = transform.up * Time.deltaTime * currShotSpeed * sloMoFactor;
         transform.position += move;
         currLifeTime -= Time.deltaTime;
+        Debug.Log(currLifeTime);
         if (currLifeTime <= 0)
         {
             gameObject.SetActive(false);

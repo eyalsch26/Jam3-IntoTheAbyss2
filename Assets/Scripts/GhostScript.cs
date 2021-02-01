@@ -88,6 +88,8 @@ public class GhostScript : MonoBehaviour
 
     IEnumerator ghostKilled()
     {
+        audio.clip = ghostDie;
+        audio.Play();
         ghost.SetActive(false);
         puff.SetActive(true);
         GetComponent<Collider2D>().enabled = false;
