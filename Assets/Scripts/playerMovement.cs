@@ -210,18 +210,6 @@ public class playerMovement : MonoBehaviour
     }
 
 
-    //private void maintainShield()
-    //{
-    //    Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
-    //    float distance = transform.position.z - mainCamera.transform.position.z;
-    //    Vector3 pos = ray.GetPoint(distance);
-    //    Vector3 shieldDir = (pos - transform.position).normalized;
-    //    shield.transform.position = transform.position + shieldDir * 1.5f;
-    //    shield.transform.up = shieldDir;
-    //}
-
-
-
     private void fireShot(Vector3 pos)
     {
         Vector3 shotDirection = (pos - gunEdgeTransform.position).normalized;
@@ -340,7 +328,7 @@ public class playerMovement : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.collider.tag == "Platform" || collision.collider.tag == "Hazard")
+        if (collision.collider.tag == "Platform" || collision.collider.tag == "Hazard" || collision.collider.tag == "Barrel")
         {
             if (Physics2D.Raycast(transform.position, Vector2.down, distToGround + 0.1f))
             {

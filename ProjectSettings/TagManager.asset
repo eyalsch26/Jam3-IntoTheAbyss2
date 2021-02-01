@@ -15,6 +15,7 @@ TagManager:
   - LifePill
   - Health
   - Missile
+  - Barrel
   layers:
   - Default
   - TransparentFX
