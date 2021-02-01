@@ -26,6 +26,13 @@ public class LauncherScript : MonoBehaviour
 
     public int health;
 
+    // sounds:
+    public AudioSource audio;
+    public AudioClip launchMissileAud;
+    public AudioClip lockOnAud;
+    public AudioClip takeHitAud;
+    public AudioClip explodeAud;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -46,6 +53,8 @@ public class LauncherScript : MonoBehaviour
         // searching -> locked on player
         else if (isActive && (transform.position - playerTransform.position).magnitude <= lockDistance)
         {
+            audio.clip = lockOnAud;
+            audio.Play();
             lockEye.SetActive(true);
             isLockedOnPlayer = true;
             xPartTransform.forward = playerTransform.position - transform.position;
@@ -103,6 +112,8 @@ public class LauncherScript : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         if (launcher.activeSelf && isLockedOnPlayer)
         {
+            audio.clip = launchMissileAud;
+            audio.Play();
             missileScript.getLaunched(playerTransform);
         }
     }
@@ -117,6 +128,8 @@ public class LauncherScript : MonoBehaviour
     void takeHit(int damage)
     {
         health -= damage;
+        audio.clip = takeHitAud;
+        audio.Play();
         if (health <= 0)
         {
             //alive = false;
@@ -126,6 +139,8 @@ public class LauncherScript : MonoBehaviour
 
     IEnumerator LauncherKilled()
     {
+        audio.clip = explodeAud;
+        audio.Play();
         launcher.SetActive(false);
         explosion.SetActive(true);
         GetComponent<Collider2D>().enabled = false;

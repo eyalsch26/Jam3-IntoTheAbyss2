@@ -32,6 +32,8 @@ public class PlayerStats : MonoBehaviour
     public Image shieldIcon;
     public Image countDownHUAnimation;
     public Image modeWheel;
+    public GameObject iodinePopUp;
+    public RectTransform iodineBar;
     public List<Sprite> elements;
     //0- heartOn;
     //1-heartOff;
@@ -55,6 +57,11 @@ public class PlayerStats : MonoBehaviour
     Vector2 mousePos;
     char currMode = 'r';
     bool powerBarActive = false;
+
+    //Iodine bar vars:
+    float currIodineMax;
+    float frameMax = 360;
+    bool isIodineBarActive = false;
 
 
     // Start is called before the first frame update
@@ -84,12 +91,20 @@ public class PlayerStats : MonoBehaviour
             int discretePower = (int)Mathf.Floor(power);
             Cursor.SetCursor(powerCursor[Mathf.Max(discretePower, 0)],
                 new Vector2(32, 32), CursorMode.Auto);
-            Debug.Log(discretePower + "   " + (int)maxPower);
             if (discretePower == (int) maxPower)
             {
                 powerBarActive = false;
                 StartCoroutine(hidePowerWheel());
             }
+        }
+
+        if(isIodineBarActive)
+        {
+            float width = Mathf.Min((iodine / currIodineMax) * frameMax, frameMax);
+            float offset = Mathf.Min((width - frameMax) / 2, 0);
+            Debug.Log(offset);
+            iodineBar.sizeDelta = new Vector2(width, iodineBar.sizeDelta.y);
+            iodineBar.anchoredPosition = new Vector2(offset, iodineBar.anchoredPosition.y);
         }
 
         if (iodine <= 0)
@@ -140,6 +155,7 @@ public class PlayerStats : MonoBehaviour
             power -= price;
             return true;
         }
+        controller.animate.playEmptyAud();
         return false;
     }
 
@@ -231,7 +247,6 @@ public class PlayerStats : MonoBehaviour
     void MaintainModeWheel()
     {
         mousePos = Mouse.current.position.ReadValue();
-        //Debug.Log((mousePos - wheelCenter).magnitude);
         if ((mousePos - wheelCenter).magnitude > 26 && (mousePos - wheelCenter).magnitude < 126)
         {
             float rad = Mathf.Atan2((mousePos - wheelCenter).y, (mousePos - wheelCenter).x);
@@ -275,10 +290,16 @@ public class PlayerStats : MonoBehaviour
     {
         IodineIcon.sprite = elements[10];
         iodineAmount.alpha = 255;
+
+        iodinePopUp.SetActive(true);
+        isIodineBarActive = true;
+        currIodineMax = iodine;        
     }
     public void IodineOff()
     {
         IodineIcon.sprite = elements[11];
         iodineAmount.alpha = 0.5f;
+        iodinePopUp.SetActive(false);
+        isIodineBarActive = false;
     }
 }

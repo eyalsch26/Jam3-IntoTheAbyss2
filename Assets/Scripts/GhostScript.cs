@@ -15,6 +15,10 @@ public class GhostScript : MonoBehaviour
     public Transform gunTransform;
     bool alive;
 
+    public AudioSource audio;
+    public AudioClip ghostShootAud;
+    public AudioClip ghostDie;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -63,6 +67,8 @@ public class GhostScript : MonoBehaviour
             Vector3 shootDirection = pTransform.position - ghost.transform.position;
             if (alive && (ghost.transform.position - pTransform.position).magnitude < shootDistance)
             {
+                audio.clip = ghostShootAud;
+                audio.Play();
                 shot = manager.getShot(false);
                 shot.transform.position = transform.position + 0.2f * shootDirection.normalized;
                 shot.transform.up = shootDirection;
@@ -98,3 +104,4 @@ public class GhostScript : MonoBehaviour
         }
     }
 }
+
