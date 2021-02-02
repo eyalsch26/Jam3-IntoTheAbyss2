@@ -11485,7 +11485,7 @@ MonoBehaviour:
   missileScript: {fileID: 355283494}
   missilePlace: {fileID: 313580986486158794}
   activeDistance: 10
-  lockDistance: 3
+  lockDistance: 4
   rotationSpeed: 4
   health: 3
   audio: {fileID: 7144420937948101494}

@@ -36,7 +36,7 @@ public class PillScript : MonoBehaviour
     {
         if (!pillBody.activeSelf)
         {
-            yield break; ;
+            yield break;
         }
         audio.enabled = true;
         audio.Play();
