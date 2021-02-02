@@ -102,7 +102,6 @@ public class PlayerStats : MonoBehaviour
         {
             float width = Mathf.Min((iodine / currIodineMax) * frameMax, frameMax);
             float offset = Mathf.Min((width - frameMax) / 2, 0);
-            Debug.Log(offset);
             iodineBar.sizeDelta = new Vector2(width, iodineBar.sizeDelta.y);
             iodineBar.anchoredPosition = new Vector2(offset, iodineBar.anchoredPosition.y);
         }
