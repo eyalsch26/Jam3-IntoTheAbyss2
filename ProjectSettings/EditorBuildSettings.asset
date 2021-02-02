@@ -9,8 +9,11 @@ EditorBuildSettings:
     path: Assets/Scenes/WelcomeScreen.unity
     guid: 1c0e84afd840d5947a5b17f4c99ed7fd
   - enabled: 0
-    path: Assets/Scenes/TomerScene_Old.unity
-    guid: 1757a2ba3d971c74495a4a47d36bf3b0
+    path: 
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/EyalScene.unity
+    guid: 6d240d8be580f944aad2d96b8ace264a
   - enabled: 1
     path: Assets/Scenes/GameOver.unity
     guid: 82b532f5ab8ce21419d828d886ddf674
