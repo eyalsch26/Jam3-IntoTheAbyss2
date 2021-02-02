@@ -195,6 +195,7 @@ public class GameController : MonoBehaviour
     {
         if (!gameIsOver)
         {
+            isPaused = true;
             Time.timeScale = 0.0f;
             depth = (int)Mathf.Floor(mainCamera.transform.position.y);
             depthScore.text = "You Reached: " + (-1) * depth * 10 + "m";
