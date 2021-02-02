@@ -8,9 +8,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/WelcomeScreen.unity
     guid: 1c0e84afd840d5947a5b17f4c99ed7fd
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/Scenes/EyalScene.unity
     guid: 6d240d8be580f944aad2d96b8ace264a

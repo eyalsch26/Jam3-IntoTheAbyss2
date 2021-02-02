@@ -5205,10 +5205,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerShot: 0
   playerShotSpeed: 5
-  enemyShotSpeed: 2
+  enemyShotSpeed: 3
   pShot: {fileID: 2879574774435798916}
   eShot: {fileID: 972217312249111970}
-  lifeTime: 0.5
+  lifeTime: 1
 --- !u!58 &3053483592510236656
 CircleCollider2D:
   m_ObjectHideFlags: 0
