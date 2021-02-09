@@ -108,15 +108,6 @@ public class LauncherScript : MonoBehaviour
             {
                 yDir = 1; 
             }
-            //xPartTransform.Rotate(xDir * Time.deltaTime * rotationSpeed, 0, 0);
-            //if (xPartTransform.localRotation.x > 0.2)
-            //{
-            //    xDir = -1;
-            //}
-            //else if (xPartTransform.localRotation.x < -0.2)
-            //{
-            //    xDir = 1;
-            //}
             yield return new WaitForFixedUpdate();
         }
     }
@@ -142,8 +133,6 @@ public class LauncherScript : MonoBehaviour
     void takeHit(int damage)
     {
         health -= damage;
-        //audio.clip = takeHitAud;
-        //audio.Play();
         AudioSource la = launcher.GetComponent<AudioSource>();
         if(!la.enabled)
         {
@@ -155,7 +144,6 @@ public class LauncherScript : MonoBehaviour
         }
         if (health <= 0)
         {
-            //alive = false;
             StartCoroutine(LauncherKilled());
         }
     }
